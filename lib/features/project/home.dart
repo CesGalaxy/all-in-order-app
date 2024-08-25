@@ -15,7 +15,7 @@ class ProjectHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<CachedCollection<ProjectNote>>(context).fetch();
+    Provider.of<CachedCollection<ProjectNote>>(context, listen: false).fetch();
 
     return Scaffold(
       body: ListView(
@@ -29,7 +29,12 @@ class ProjectHome extends StatelessWidget {
             child: Text("Latest Notes",
                 style: Theme.of(context).textTheme.headlineMedium),
           ),
-          _latestNotes(context),
+          _latestNotes(
+            context,
+            () => Provider.of<CachedCollection<ProjectNote>>(context,
+                    listen: false)
+                .refresh(force: true),
+          ),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text("Next Events",
@@ -104,7 +109,7 @@ class ProjectHome extends StatelessWidget {
     );
   }
 
-  Widget _latestNotes(BuildContext context) {
+  Widget _latestNotes(BuildContext context, Function refresh) {
     return Consumer<CachedCollection<ProjectNote>>(
       builder: (context, notes, child) {
         switch (notes.status) {
@@ -150,7 +155,11 @@ class ProjectHome extends StatelessWidget {
                           clipBehavior: Clip.hardEdge,
                           child: InkWell(
                             onTap: () =>
-                                showNoteModal(context, note).then((edited) {
+                                showNoteModal(context, note, allowEditing: true)
+                                    .then((edited) {
+                              if (edited) {
+                                refresh();
+                              }
                               // TODO: Refresh the stateless widget
                             }),
                             child: Padding(

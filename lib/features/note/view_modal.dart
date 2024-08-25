@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 
 import '../../db/models/project_note.dart';
 
-Future<bool> showNoteModal(BuildContext context, ProjectNote note) async {
+Future<bool> showNoteModal(
+  BuildContext context,
+  ProjectNote note, {
+  bool allowEditing = false,
+}) async {
   bool edited = false;
 
   await showModalBottomSheet(
@@ -18,14 +22,15 @@ Future<bool> showNoteModal(BuildContext context, ProjectNote note) async {
             title: Text(note.title),
             backgroundColor: Colors.transparent,
             actions: [
-              IconButton(
-                icon: const Icon(Icons.edit),
-                onPressed: () => {
-                  showNoteEditModal(context, note).then((value) {
+              if (allowEditing)
+                IconButton(
+                  icon: const Icon(Icons.edit),
+                  onPressed: () =>
+                      showNoteEditModal(context, note).then((_) {
                     edited = true;
+                    Navigator.of(context).pop();
                   }),
-                },
-              ),
+                ),
               IconButton(
                 icon: const Icon(Icons.delete),
                 onPressed: () {},

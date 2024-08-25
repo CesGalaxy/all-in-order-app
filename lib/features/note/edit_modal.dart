@@ -1,3 +1,4 @@
+import 'package:all_in_order/supabase.dart';
 import 'package:flutter/material.dart';
 
 import '../../db/models/project_note.dart';
@@ -19,9 +20,14 @@ class NoteEditor extends StatefulWidget {
 }
 
 class _NoteEditorState extends State<NoteEditor> {
-  late final TextEditingController _titleController = TextEditingController(text: widget.note.title);
-  late final TextEditingController _contentController = TextEditingController(text: widget.note.content);
-  late final TextEditingController _tagsController = TextEditingController(text: widget.note.tags?.join(", "));
+  late final TextEditingController _titleController =
+      TextEditingController(text: widget.note.title);
+  late final TextEditingController _contentController =
+      TextEditingController(text: widget.note.content);
+  late final TextEditingController _tagsController =
+      TextEditingController(text: widget.note.tags?.join(", "));
+
+  bool saving = false;
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +41,10 @@ class _NoteEditorState extends State<NoteEditor> {
             backgroundColor: Colors.transparent,
             actions: [
               IconButton(
-                icon: const Icon(Icons.save),
-                onPressed: () {},
+                icon: saving
+                    ? const CircularProgressIndicator()
+                    : const Icon(Icons.save),
+                onPressed: saving ? null : _save,
               ),
               IconButton(
                 icon: const Icon(Icons.delete),
@@ -66,5 +74,36 @@ class _NoteEditorState extends State<NoteEditor> {
         ],
       ),
     );
+  }
+
+  void _save() {
+    final title = _titleController.text;
+    final content = _contentController.text;
+    final tags = _tagsController.text.split(", ");
+
+    setState(() {
+      saving = true;
+    });
+
+    supabase
+        .from("project_notes")
+        .update({
+          "title": title,
+          "content": content,
+          "tags": tags,
+        })
+        .eq("id", widget.note.id)
+        .then((_) => _exit())
+        .catchError((error) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(error.toString()),
+            ),
+          );
+        });
+  }
+
+  void _exit() {
+    Navigator.of(context).pop();
   }
 }
