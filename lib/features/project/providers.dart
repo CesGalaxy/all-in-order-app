@@ -1,6 +1,9 @@
+import 'package:all_in_order/api/cached_collection.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../db/models/project.dart';
+import '../../db/models/project_note.dart';
 import 'navigation.dart';
 
 class ProjectProviders extends StatefulWidget {
@@ -13,11 +16,15 @@ class ProjectProviders extends StatefulWidget {
 }
 
 class _ProjectProvidersState extends State<ProjectProviders> {
-  // TODO: Wait for fetching
-  //DynamicCollection<ProjectNote> _projectNotes = DynamicCollection<ProjectNote>();
+  late final CachedCollection<ProjectNote> _projectNotes =
+      CachedCollection<ProjectNote>(
+    fetch: () async => (await ProjectNote.fetchByProject(widget.project.id))!,
+    cacheDuration: const Duration(minutes: 5),
+  );
 
   @override
   void initState() {
+    // _projectNotes.fetch(force: true);
     super.initState();
   }
 
@@ -28,6 +35,11 @@ class _ProjectProvidersState extends State<ProjectProviders> {
 
   @override
   Widget build(BuildContext context) {
-    return ProjectNavigation(project: widget.project);
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(value: _projectNotes),
+      ],
+      child: ProjectNavigation(project: widget.project),
+    );
   }
 }
