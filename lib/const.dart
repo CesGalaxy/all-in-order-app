@@ -1,0 +1,3 @@
+const supabaseProjectID = 'lqhpujmpehjkdqbxcret';
+const supabaseProjectURL = 'https://$supabaseProjectID.supabase.co';
+const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxxaHB1am1wZWhqa2RxYnhjcmV0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTUwOTYyNTAsImV4cCI6MjAzMDY3MjI1MH0.gQBFwortG8BlA3dAHWc0LTG24ig5OMOrcJfsmvnu9_Q";
