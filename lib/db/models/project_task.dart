@@ -1,3 +1,5 @@
+import '../../supabase.dart';
+
 class ProjectTask {
   int id;
   int projectId;
@@ -18,6 +20,21 @@ class ProjectTask {
     required this.createdAt,
     this.updatedAt,
   });
+
+  static Future<List<ProjectTask>?> fetchByProject(int projectId) async {
+    try {
+      final data = await supabase
+          .from('project_tasks')
+          .select()
+          .eq('project_id', projectId)
+          .order('id', ascending: false);
+
+      return data.map((e) => ProjectTask.fromJson(e)).toList();
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
 
   factory ProjectTask.fromJson(Map<String, dynamic> json) {
     return ProjectTask(
