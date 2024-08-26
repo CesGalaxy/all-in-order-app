@@ -93,17 +93,15 @@ class _NoteEditorState extends State<NoteEditor> {
           "tags": tags,
         })
         .eq("id", widget.note.id)
-        .then((_) => _exit())
+        .then((_) => mounted ? Navigator.of(context).pop() : null)
         .catchError((error) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(error.toString()),
-            ),
-          );
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(error.toString()),
+              ),
+            );
+          }
         });
-  }
-
-  void _exit() {
-    Navigator.of(context).pop();
   }
 }

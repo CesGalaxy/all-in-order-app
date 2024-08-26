@@ -69,7 +69,14 @@ class _ProjectTasksPageState extends State<ProjectTasksPage> {
                       return ListTile(
                         title: Text(task.title),
                         subtitle: Text(task.description ?? "No description"),
-                        onTap: () => showTaskViewModal(context, task),
+                        onTap: () async {
+                          await showTaskViewModal(context, task);
+                          if (mounted) {
+                            Provider.of<CachedCollection<ProjectTask>>(context,
+                                    listen: false)
+                                .fetch(force: true);
+                          }
+                        },
                         trailing: IconButton(
                           icon: const Icon(Icons.check_box_outline_blank),
                           onPressed: () {

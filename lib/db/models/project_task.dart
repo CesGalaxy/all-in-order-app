@@ -42,7 +42,7 @@ class ProjectTask {
       projectId: json['project_id'],
       title: json['title'],
       description: json['description'],
-      dueDate: json['due_date'] != null ? DateTime.parse(json['due_date']) : null,
+      dueDate: json['pending_date'] != null ? DateTime.parse(json['pending_date']) : null,
       createdBy: json['created_by'],
       createdAt: DateTime.parse(json['created_at']),
       updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at']) : null,
