@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../api/cached_collection.dart';
 import '../../db/models/project_task.dart';
 import '../task/create_page.dart';
+import '../task/view_modal.dart';
 
 class ProjectTasksPage extends StatefulWidget {
   const ProjectTasksPage({super.key, required this.project});
@@ -59,25 +60,25 @@ class _ProjectTasksPageState extends State<ProjectTasksPage> {
                   );
                 }
 
-                return ListView.builder(
-                  itemCount: tasks.length,
-                  itemBuilder: (context, index) {
-                    final task = tasks[index];
-
-                    return ListTile(
-                      title: Text(task.title),
-                      subtitle: task.description != null
-                          ? Text(task.description!)
-                          : null,
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => CreateTaskPage(
-                            project: widget.project,
-                          ),
-                        ));
-                      },
-                    );
-                  },
+                return RefreshIndicator(
+                  onRefresh: () => tasksCache.fetch(force: true),
+                  child: ListView.builder(
+                    itemCount: tasks.length,
+                    itemBuilder: (context, index) {
+                      final task = tasks[index];
+                      return ListTile(
+                        title: Text(task.title),
+                        subtitle: Text(task.description ?? "No description"),
+                        onTap: () => showTaskViewModal(context, task),
+                        trailing: IconButton(
+                          icon: const Icon(Icons.check_box_outline_blank),
+                          onPressed: () {
+                            // Navigate to edit task
+                          },
+                        ),
+                      );
+                    },
+                  ),
                 );
               default:
                 return const Center(child: Text('An error occurred'));

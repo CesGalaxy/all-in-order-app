@@ -1,11 +1,8 @@
-import 'package:all_in_order/db/models/profile.dart';
 import 'package:all_in_order/features/auth/auth_page.dart';
 import 'package:all_in_order/features/auth/auth_service.dart';
 import 'package:all_in_order/features/auth/create_profile_page.dart';
-import 'package:all_in_order/supabase.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthMiddleware extends StatefulWidget {
   const AuthMiddleware({super.key, required this.child});
@@ -23,7 +20,6 @@ class AuthMiddlewareState extends State<AuthMiddleware> {
   Widget build(BuildContext context) {
     return Consumer<AuthService>(
       builder: (context, auth, child) {
-        print([profileFetched, auth.session != null, auth.profile]);
         if (auth.error != null) {
           return const Text('Error');
         } else if (auth.session == null) {

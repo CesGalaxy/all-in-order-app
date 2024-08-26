@@ -103,14 +103,15 @@ class _CreateTaskPageState extends State<CreateTaskPage> {
                                 },
                               ).then((time) {
                                 if (time != null) {
-                                  _dueDate = DateTime(
-                                    value!.year,
-                                    value.month,
-                                    value.day,
-                                    time.hour,
-                                    time.minute,
-                                  );
-                                  setState(() {});
+                                  setState(() {
+                                    _dueDate = DateTime(
+                                      value!.year,
+                                      value.month,
+                                      value.day,
+                                      time.hour,
+                                      time.minute,
+                                    );
+                                  });
                                 }
                               });
                             }))),

@@ -56,10 +56,8 @@ class AuthService extends ChangeNotifier {
 
   Future fetchProfile() async {
     if (session != null) {
-      final Profile? fetchedProfile = await Profile.fetch(session!.user.id);
-      print("FETCH: $fetchedProfile");
+      final Profile? fetchedProfile = await Profile.fetchByUserId(session!.user.id);
       _profile = fetchedProfile;
-      print(profile);
       notifyListeners();
     }
   }

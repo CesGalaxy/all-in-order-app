@@ -18,12 +18,33 @@ class Profile {
     this.bio,
   });
 
-  static Future<Profile?> fetch(String userId) async {
+  static Future<Profile?> fetchByUserId(String userId) async {
     try {
       final data = await supabase
           .from('profiles')
           .select()
           .eq('user_id', userId)
+          .limit(1)
+          .maybeSingle();
+
+      if (data == null) {
+        return null;
+      } else {
+        return Profile.fromJson(data);
+      }
+    } catch (e) {
+      print(e);
+      supabase.auth.signOut();
+      return null;
+    }
+  }
+
+  static Future<Profile?> fetchById(int id) async {
+    try {
+      final data = await supabase
+          .from('profiles')
+          .select()
+          .eq('id', id)
           .limit(1)
           .maybeSingle();
 
