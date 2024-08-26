@@ -1,5 +1,6 @@
 import 'package:all_in_order/db/models/profile.dart';
 import 'package:all_in_order/db/models/project.dart';
+import 'package:all_in_order/features/auth/auth_service.dart';
 import 'package:all_in_order/supabase.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -149,24 +150,24 @@ class _CreateTaskPageState extends State<CreateTaskPage> {
       return;
     }
 
-    supabase.from('project_tasks').upsert({
-      'project_id': widget.project.id,
-      'title': title,
-      'description': description,
-      'pending_date': _dueDate.toString(),
-      'created_by': _showCreatedByMe
-          ? Provider.of<Profile>(context, listen: false).id
-          : null,
-    }).then((response) {
-      if (response.error != null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(response.error!.message),
-          ),
-        );
-      } else {
+    try {
+      supabase.from('project_tasks').insert({
+        'project_id': widget.project.id,
+        'title': title,
+        'description': description,
+        'pending_date': _dueDate.toString(),
+        'created_by': _showCreatedByMe
+            ? Provider.of<AuthService>(context, listen: false).profile!.id
+            : null,
+      }).then((_) {
         Navigator.pop(context);
-      }
-    });
+      });
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('An error occurred: $e'),
+        ),
+      );
+    }
   }
 }
