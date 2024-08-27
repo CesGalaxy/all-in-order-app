@@ -1,5 +1,4 @@
-import 'package:all_in_order/db/models/profile.dart';
-import 'package:all_in_order/db/models/project.dart';
+import 'package:all_in_order/db/models/subject.dart';
 import 'package:all_in_order/features/auth/auth_service.dart';
 import 'package:all_in_order/supabase.dart';
 import 'package:flutter/material.dart';
@@ -7,9 +6,9 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class CreateTaskPage extends StatefulWidget {
-  const CreateTaskPage({super.key, required this.project});
+  const CreateTaskPage({super.key, required this.subject});
 
-  final Project project;
+  final Subject subject;
 
   @override
   State<CreateTaskPage> createState() => _CreateTaskPageState();
@@ -152,17 +151,17 @@ class _CreateTaskPageState extends State<CreateTaskPage> {
     }
 
     try {
-      supabase.from('project_tasks').insert({
-        'project_id': widget.project.id,
-        'title': title,
-        'description': description,
-        'pending_date': _dueDate.toString(),
-        'created_by': _showCreatedByMe
-            ? Provider.of<AuthService>(context, listen: false).profile!.id
-            : null,
-      }).then((_) {
+      // supabase.from('subject_tasks').insert({
+      //   'subject_id': widget.subject.id,
+      //   'title': title,
+      //   'description': description,
+      //   'starts_at': _dueDate.toString(),
+      //   // 'created_by': _showCreatedByMe
+      //   //     ? Provider.of<AuthService>(context, listen: false).profile!.id
+      //   //     : null,
+      // }).then((_) {
         Navigator.pop(context);
-      });
+      //});
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

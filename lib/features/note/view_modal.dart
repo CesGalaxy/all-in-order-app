@@ -1,11 +1,11 @@
 import 'package:all_in_order/features/note/edit_modal.dart';
 import 'package:flutter/material.dart';
 
-import '../../db/models/project_note.dart';
+import '../../db/models/subject_note.dart';
 
 Future<bool> showNoteModal(
   BuildContext context,
-  ProjectNote note, {
+  SubjectNote note, {
   bool allowEditing = false,
 }) async {
   bool edited = false;
@@ -19,7 +19,7 @@ Future<bool> showNoteModal(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AppBar(
-            title: Text(note.title),
+            title: Text(note.title ?? 'Untitled'),
             backgroundColor: Colors.transparent,
             actions: [
               if (allowEditing)

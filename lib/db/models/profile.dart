@@ -19,45 +19,25 @@ class Profile {
   });
 
   static Future<Profile?> fetchByUserId(String userId) async {
-    try {
-      final data = await supabase
-          .from('profiles')
-          .select()
-          .eq('user_id', userId)
-          .limit(1)
-          .maybeSingle();
+    final data = await supabase
+        .from('profiles')
+        .select()
+        .eq('user_id', userId)
+        .limit(1)
+        .maybeSingle();
 
-      if (data == null) {
-        return null;
-      } else {
-        return Profile.fromJson(data);
-      }
-    } catch (e) {
-      print(e);
-      supabase.auth.signOut();
-      return null;
-    }
+    return data != null ? Profile.fromJson(data) : null;
   }
 
   static Future<Profile?> fetchById(int id) async {
-    try {
-      final data = await supabase
-          .from('profiles')
-          .select()
-          .eq('id', id)
-          .limit(1)
-          .maybeSingle();
+    final data = await supabase
+        .from('profiles')
+        .select()
+        .eq('id', id)
+        .limit(1)
+        .maybeSingle();
 
-      if (data == null) {
-        return null;
-      } else {
-        return Profile.fromJson(data);
-      }
-    } catch (e) {
-      print(e);
-      supabase.auth.signOut();
-      return null;
-    }
+    return data != null ? Profile.fromJson(data) : null;
   }
 
   // From JSON

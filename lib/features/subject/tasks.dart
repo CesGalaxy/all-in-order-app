@@ -1,4 +1,5 @@
-import 'package:all_in_order/db/models/project.dart';
+import 'package:all_in_order/db/models/subject.dart';
+import 'package:all_in_order/db/models/subject_event.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -8,9 +9,9 @@ import '../task/create_page.dart';
 import '../task/view_modal.dart';
 
 class ProjectTasksPage extends StatefulWidget {
-  const ProjectTasksPage({super.key, required this.project});
+  const ProjectTasksPage({super.key, required this.subject});
 
-  final Project project;
+  final Subject subject;
 
   @override
   State<ProjectTasksPage> createState() => _ProjectTasksPageState();
@@ -21,16 +22,16 @@ class _ProjectTasksPageState extends State<ProjectTasksPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-        future: Provider.of<CachedCollection<ProjectTask>>(context).fetch(),
-        builder: (context, snapshot) => Consumer<CachedCollection<ProjectTask>>(
+        future: Provider.of<CachedCollection<SubjectEvent>>(context).fetch(),
+        builder: (context, snapshot) => Consumer<CachedCollection<SubjectEvent>>(
           builder: (context, tasksCache, child) {
             switch (tasksCache.status) {
               case CachedDataStatus.initializing:
                 return const Center(child: CircularProgressIndicator());
               case CachedDataStatus.error:
-                return const Center(child: Text('An error occurred'));
+                return Center(child: Text('Error: ${tasksCache.error}'));
               case CachedDataStatus.done:
-                final tasks = tasksCache.items;
+                final tasks = tasksCache.items.where((task) => task.type == 'TASK').toList();
 
                 if (tasks.isEmpty) {
                   // Show a Card with action
@@ -47,7 +48,7 @@ class _ProjectTasksPageState extends State<ProjectTasksPage> {
                               onPressed: () {
                                 Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => CreateTaskPage(
-                                    project: widget.project,
+                                    subject: widget.subject,
                                   ),
                                 ));
                               },
@@ -68,10 +69,10 @@ class _ProjectTasksPageState extends State<ProjectTasksPage> {
                       final task = tasks[index];
                       return ListTile(
                         title: Text(task.title),
-                        subtitle: Text(task.description ?? "No description"),
+                        subtitle: Text(task.details ?? "No description"),
                         onTap: () async {
                           await showTaskViewModal(context, task);
-                          if (mounted) {
+                          if (context.mounted) {
                             Provider.of<CachedCollection<ProjectTask>>(context,
                                     listen: false)
                                 .fetch(force: true);
@@ -96,7 +97,7 @@ class _ProjectTasksPageState extends State<ProjectTasksPage> {
       floatingActionButton: FloatingActionButton(
         tooltip: 'Create Task',
         onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => CreateTaskPage(project: widget.project),
+          builder: (context) => CreateTaskPage(subject: widget.subject),
         )),
         child: const Icon(Icons.add),
       ),

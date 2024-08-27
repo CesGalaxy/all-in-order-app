@@ -1,21 +1,20 @@
 import 'package:all_in_order/api/cached_collection.dart';
-import 'package:all_in_order/db/models/project_note.dart';
+import 'package:all_in_order/db/models/subject.dart';
+import 'package:all_in_order/db/models/subject_note.dart';
 import 'package:all_in_order/features/note/view_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../db/models/project.dart';
-
 class ProjectHome extends StatelessWidget {
   const ProjectHome(
-      {super.key, required this.project, required this.setTitleVisibility});
+      {super.key, required this.subject, required this.setTitleVisibility});
 
-  final Project project;
+  final Subject subject;
   final void Function(bool) setTitleVisibility;
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<CachedCollection<ProjectNote>>(context, listen: false).fetch();
+    Provider.of<CachedCollection<SubjectNote>>(context, listen: false).fetch();
 
     return Scaffold(
       body: ListView(
@@ -31,7 +30,7 @@ class ProjectHome extends StatelessWidget {
           ),
           _latestNotes(
             context,
-            () => Provider.of<CachedCollection<ProjectNote>>(context,
+            () => Provider.of<CachedCollection<SubjectNote>>(context,
                     listen: false)
                 .refresh(force: true),
           ),
@@ -83,7 +82,7 @@ class ProjectHome extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Text(
-                  project.name,
+                  subject.name,
                   overflow: TextOverflow.clip,
                   softWrap: false,
                   style: Theme.of(context)
@@ -91,16 +90,18 @@ class ProjectHome extends StatelessWidget {
                       .headlineLarge
                       ?.copyWith(color: Colors.white),
                 ),
-                const SizedBox(height: 10),
-                Text(
-                  project.resume,
-                  overflow: TextOverflow.clip,
-                  softWrap: false,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium
-                      ?.copyWith(color: Colors.white),
-                )
+                if (subject.description != null)
+                  const SizedBox(height: 10),
+                if (subject.description != null)
+                  Text(
+                    subject.description!,
+                    overflow: TextOverflow.clip,
+                    softWrap: false,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(color: Colors.white),
+                  )
               ],
             ),
           ),
@@ -110,7 +111,7 @@ class ProjectHome extends StatelessWidget {
   }
 
   Widget _latestNotes(BuildContext context, Function refresh) {
-    return Consumer<CachedCollection<ProjectNote>>(
+    return Consumer<CachedCollection<SubjectNote>>(
       builder: (context, notes, child) {
         switch (notes.status) {
           case CachedDataStatus.initializing:
@@ -169,7 +170,7 @@ class ProjectHome extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    note.title,
+                                    note.title ?? "Untitled",
                                     style:
                                         Theme.of(context).textTheme.bodyLarge,
                                   ),

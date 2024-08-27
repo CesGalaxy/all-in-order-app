@@ -1,9 +1,9 @@
 import 'package:all_in_order/supabase.dart';
 import 'package:flutter/material.dart';
 
-import '../../db/models/project_note.dart';
+import '../../db/models/subject_note.dart';
 
-Future showNoteEditModal(BuildContext context, ProjectNote note) {
+Future showNoteEditModal(BuildContext context, SubjectNote note) {
   return showModalBottomSheet(
     context: context,
     builder: (context) => NoteEditor(note: note),
@@ -13,7 +13,7 @@ Future showNoteEditModal(BuildContext context, ProjectNote note) {
 class NoteEditor extends StatefulWidget {
   const NoteEditor({super.key, required this.note});
 
-  final ProjectNote note;
+  final SubjectNote note;
 
   @override
   State<NoteEditor> createState() => _NoteEditorState();

@@ -1,21 +1,22 @@
-import 'package:all_in_order/db/models/project.dart';
-import 'package:all_in_order/features/project/calendar/page.dart';
-import 'package:all_in_order/features/project/home.dart';
-import 'package:all_in_order/features/project/tasks.dart';
+import 'package:all_in_order/db/models/subject.dart';
+import 'package:all_in_order/features/subject/home.dart';
+import 'package:all_in_order/features/subject/tasks.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../task/create_page.dart';
+import '../../api/cached_collection.dart';
+import '../../db/models/subject_note.dart';
 
-class ProjectNavigation extends StatefulWidget {
-  const ProjectNavigation({super.key, required this.project});
+class SubjectNavigation extends StatefulWidget {
+  const SubjectNavigation({super.key, required this.subject});
 
-  final Project project;
+  final Subject subject;
 
   @override
-  State<ProjectNavigation> createState() => _ProjectNavigationState();
+  State<SubjectNavigation> createState() => _SubjectNavigationState();
 }
 
-class _ProjectNavigationState extends State<ProjectNavigation>
+class _SubjectNavigationState extends State<SubjectNavigation>
     with SingleTickerProviderStateMixin {
   late PageController _pageViewController = PageController();
   late AnimationController _titleController = AnimationController(
@@ -57,7 +58,7 @@ class _ProjectNavigationState extends State<ProjectNavigation>
         title: AnimatedOpacity(
           opacity: _activeIndex != 0 || _showTitle ? 1 : 0,
           duration: const Duration(milliseconds: 300),
-          child: Text(widget.project.name),
+          child: Text(widget.subject.name),
         ),
         actions: <Widget>[
           IconButton(
@@ -79,11 +80,12 @@ class _ProjectNavigationState extends State<ProjectNavigation>
                 ),
               ),
               PopupMenuItem(
-                onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            CreateTaskPage(project: widget.project))),
+                onTap: () {},
+                // onTap: () => Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: (context) =>
+                //             CreateTaskPage(subject: widget.subject))),
                 child: const ListTile(
                   leading: Icon(Icons.task),
                   title: Text("Add Task"),
@@ -104,10 +106,11 @@ class _ProjectNavigationState extends State<ProjectNavigation>
         controller: _pageViewController,
         children: <Widget>[
           ProjectHome(
-              project: widget.project, setTitleVisibility: _setTitleVisibility),
+              subject: widget.subject, setTitleVisibility: _setTitleVisibility),
           const Text("Hello world!"),
-          ProjectTasksPage(project: widget.project),
-          ProjectCalendarPage(project: widget.project),
+          ProjectTasksPage(subject: widget.subject),
+          //ProjectCalendarPage(subject: widget.subject),
+          const Text("Hello world!"),
           const Text("Hello world!"),
         ],
         onPageChanged: (index) {
