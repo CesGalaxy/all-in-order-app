@@ -10,7 +10,7 @@ class HomeNavigation extends StatefulWidget {
 
 class _HomeNavigationState extends State<HomeNavigation>
     with SingleTickerProviderStateMixin {
-  late PageController _pageViewController = PageController();
+  late PageController _pageViewController = PageController(initialPage: 1);
 
   late AnimationController _navbarAnimationController = AnimationController(
     vsync: this,
@@ -22,7 +22,7 @@ class _HomeNavigationState extends State<HomeNavigation>
 
   @override
   void initState() {
-    _pageViewController = PageController();
+    _pageViewController = PageController(initialPage: 1);
     _navbarAnimationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 200),

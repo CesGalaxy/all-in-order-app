@@ -1,4 +1,5 @@
 import 'package:all_in_order/db/models/project.dart';
+import 'package:all_in_order/features/project/calendar/page.dart';
 import 'package:all_in_order/features/project/home.dart';
 import 'package:all_in_order/features/project/tasks.dart';
 import 'package:flutter/material.dart';
@@ -106,7 +107,7 @@ class _ProjectNavigationState extends State<ProjectNavigation>
               project: widget.project, setTitleVisibility: _setTitleVisibility),
           const Text("Hello world!"),
           ProjectTasksPage(project: widget.project),
-          const Text("Hello world!"),
+          ProjectCalendarPage(project: widget.project),
           const Text("Hello world!"),
         ],
         onPageChanged: (index) {

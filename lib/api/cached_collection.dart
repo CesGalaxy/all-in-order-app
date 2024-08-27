@@ -4,10 +4,11 @@ class CachedCollection<T> extends DynamicCollection<T> {
   final Duration cacheDuration;
   DateTime? _lastFetch;
 
-  Error? _error;
+  Object? _error;
 
   final Future<List<T>> Function() _fetch;
 
+  // TODO: Fetch on construction?
   CachedCollection({
     required Future<List<T>> Function() fetch,
     required this.cacheDuration,
@@ -25,7 +26,7 @@ class CachedCollection<T> extends DynamicCollection<T> {
   List<T>? get maybeItems => _lastFetch == null ? null : items;
 
   /// The error that occurred while fetching the data
-  Error? get error => _error;
+  Object? get error => _error;
 
   /// The status of the cached data
   CachedDataStatus get status {
@@ -39,9 +40,9 @@ class CachedCollection<T> extends DynamicCollection<T> {
   }
 
   /// Fetch the data and return it
-  Future<List<T>> fetch({ bool force = false, bool update = true }) async {
+  Future<List<T>?> fetch({ bool force = false, bool update = true }) async {
     await refresh(force: force, update: update);
-    return items;
+    return maybeItems;
   }
 
   /// Refresh the data if it's older than [cacheDuration], if [force] is true, or if it's the first fetch
@@ -55,7 +56,7 @@ class CachedCollection<T> extends DynamicCollection<T> {
           _lastFetch = DateTime.now();
         }
       } catch (e) {
-        _error = e as Error;
+        _error = e;
       }
     }
   }
