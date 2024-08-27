@@ -5,8 +5,8 @@ import 'package:all_in_order/features/note/view_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ProjectHome extends StatelessWidget {
-  const ProjectHome(
+class SubjectHome extends StatelessWidget {
+  const SubjectHome(
       {super.key, required this.subject, required this.setTitleVisibility});
 
   final Subject subject;

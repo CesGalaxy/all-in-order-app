@@ -1,9 +1,6 @@
 import 'package:all_in_order/db/models/subject.dart';
-import 'package:all_in_order/features/auth/auth_service.dart';
-import 'package:all_in_order/supabase.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 
 class CreateTaskPage extends StatefulWidget {
   const CreateTaskPage({super.key, required this.subject});

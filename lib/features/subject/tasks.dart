@@ -1,23 +1,24 @@
 import 'package:all_in_order/db/models/subject.dart';
 import 'package:all_in_order/db/models/subject_event.dart';
+import 'package:all_in_order/widgets/empty_collection_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../api/cached_collection.dart';
-import '../../db/models/project_task.dart';
+import '../../db/models/subject_task.dart';
 import '../task/create_page.dart';
 import '../task/view_modal.dart';
 
-class ProjectTasksPage extends StatefulWidget {
-  const ProjectTasksPage({super.key, required this.subject});
+class SubjectTasksPage extends StatefulWidget {
+  const SubjectTasksPage({super.key, required this.subject});
 
   final Subject subject;
 
   @override
-  State<ProjectTasksPage> createState() => _ProjectTasksPageState();
+  State<SubjectTasksPage> createState() => _SubjectTasksPageState();
 }
 
-class _ProjectTasksPageState extends State<ProjectTasksPage> {
+class _SubjectTasksPageState extends State<SubjectTasksPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,29 +36,12 @@ class _ProjectTasksPageState extends State<ProjectTasksPage> {
 
                 if (tasks.isEmpty) {
                   // Show a Card with action
-                  return Center(
-                    child: Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Text('No tasks found'),
-                            const SizedBox(height: 16),
-                            FilledButton(
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => CreateTaskPage(
-                                    subject: widget.subject,
-                                  ),
-                                ));
-                              },
-                              child: const Text('Create Task'),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                  return EmptyCollectionScreen(
+                    title: 'No tasks found',
+                    actionLabel: 'Create Task',
+                    action: () => Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => CreateTaskPage(subject: widget.subject),
+                    )),
                   );
                 }
 
@@ -73,7 +57,7 @@ class _ProjectTasksPageState extends State<ProjectTasksPage> {
                         onTap: () async {
                           await showTaskViewModal(context, task);
                           if (context.mounted) {
-                            Provider.of<CachedCollection<ProjectTask>>(context,
+                            Provider.of<CachedCollection<SubjectTask>>(context,
                                     listen: false)
                                 .fetch(force: true);
                           }

@@ -1,7 +1,7 @@
 import 'package:all_in_order/db/models/subject.dart';
 import 'package:all_in_order/db/models/subject_event.dart';
-import 'package:all_in_order/db/models/subject_event.dart';
-import 'package:all_in_order/db/models/subject_event.dart';
+import 'package:all_in_order/db/models/subject_task.dart';
+import 'package:all_in_order/db/models/topic.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -25,15 +25,20 @@ class _SubjectProvidersState extends State<SubjectProviders> {
     cacheDuration: const Duration(minutes: 5),
   );
 
-  // late CachedCollection<ProjectTask> _projectTasks =
-  //     CachedCollection<ProjectTask>(
-  //   fetch: () async => (await ProjectTask.fetchByProject(widget.project.id))!,
-  //   cacheDuration: const Duration(minutes: 5),
-  // );
-  //
+  late CachedCollection<SubjectTask> _subjectTasks =
+      CachedCollection<SubjectTask>(
+    fetch: () async => (await SubjectTask.fetchByProject(widget.subject.id))!,
+    cacheDuration: const Duration(minutes: 5),
+  );
+
   late CachedCollection<SubjectEvent> _subjectEvents =
       CachedCollection<SubjectEvent>(
     fetch: () async => (await SubjectEvent.fetchBySubject(widget.subject.id))!,
+    cacheDuration: const Duration(minutes: 5),
+  );
+
+  late CachedCollection<Topic> _subjectTopics = CachedCollection<Topic>(
+    fetch: () async => (await Topic.fetchBySubject(widget.subject.id))!,
     cacheDuration: const Duration(minutes: 5),
   );
 
@@ -44,39 +49,47 @@ class _SubjectProvidersState extends State<SubjectProviders> {
       cacheDuration: const Duration(minutes: 5),
     );
 
-    // _projectTasks = CachedCollection<ProjectTask>(
-    //   fetch: () async => (await ProjectTask.fetchByProject(widget.project.id))!,
-    //   cacheDuration: const Duration(minutes: 5),
-    // );
-    //
+    _subjectTasks = CachedCollection<SubjectTask>(
+      fetch: () async => (await SubjectTask.fetchByProject(widget.subject.id))!,
+      cacheDuration: const Duration(minutes: 5),
+    );
+
     _subjectEvents = CachedCollection<SubjectEvent>(
       fetch: () async =>
           (await SubjectEvent.fetchBySubject(widget.subject.id))!,
       cacheDuration: const Duration(minutes: 5),
     );
-    _subjectNotes.fetch(force: true);
+
+    _subjectTopics = CachedCollection<Topic>(
+      fetch: () async => (await Topic.fetchBySubject(widget.subject.id))!,
+      cacheDuration: const Duration(minutes: 5),
+    );
+
     super.initState();
   }
 
   @override
   void dispose() {
     _subjectNotes.dispose();
-    // _projectTasks.dispose();
+    _subjectTasks.dispose();
     _subjectEvents.dispose();
+    _subjectTopics.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     _subjectNotes.fetch();
-    // _projectTasks.fetch();
+    _subjectTasks.fetch();
     _subjectEvents.fetch();
+    _subjectTopics.fetch();
 
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(value: _subjectNotes),
-        // ChangeNotifierProvider.value(value: _projectTasks),
+        ChangeNotifierProvider.value(value: _subjectTasks),
         ChangeNotifierProvider.value(value: _subjectEvents),
+        ChangeNotifierProvider.value(value: _subjectTopics),
       ],
       child: SubjectNavigation(subject: widget.subject),
     );

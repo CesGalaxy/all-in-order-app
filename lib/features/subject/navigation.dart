@@ -1,11 +1,8 @@
 import 'package:all_in_order/db/models/subject.dart';
 import 'package:all_in_order/features/subject/home.dart';
+import 'package:all_in_order/features/subject/resources.dart';
 import 'package:all_in_order/features/subject/tasks.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../../api/cached_collection.dart';
-import '../../db/models/subject_note.dart';
 
 class SubjectNavigation extends StatefulWidget {
   const SubjectNavigation({super.key, required this.subject});
@@ -105,10 +102,10 @@ class _SubjectNavigationState extends State<SubjectNavigation>
       body: PageView(
         controller: _pageViewController,
         children: <Widget>[
-          ProjectHome(
+          SubjectHome(
               subject: widget.subject, setTitleVisibility: _setTitleVisibility),
-          const Text("Hello world!"),
-          ProjectTasksPage(subject: widget.subject),
+          SubjectResourcesPage(subject: widget.subject),
+          SubjectTasksPage(subject: widget.subject),
           //ProjectCalendarPage(subject: widget.subject),
           const Text("Hello world!"),
           const Text("Hello world!"),

@@ -26,7 +26,16 @@ class Topic {
     return data != null ? Topic.fromJson(data) : null;
   }
 
-  static Topic? fromJson(Map<String, dynamic> json) {
+  static Future<List<Topic>?> fetchBySubject(int subjectId) async {
+    final data = await supabase
+        .from('topics')
+        .select()
+        .eq('subject_id', subjectId);
+
+    return data.map(Topic.fromJson).toList();
+  }
+
+  factory Topic.fromJson(Map<String, dynamic> json) {
     return Topic(
       id: json['id'],
       subjectId: json['subject_id'],
