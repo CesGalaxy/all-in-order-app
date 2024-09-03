@@ -1,17 +1,17 @@
 import 'package:all_in_order/api/cached_collection.dart';
 import 'package:all_in_order/db/models/subject.dart';
 import 'package:all_in_order/widgets/empty_collection_screen.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../db/models/topic.dart';
 import '../topic/create_page.dart';
+import '../topic/navigation.dart';
 
 class SubjectResourcesPage extends StatefulWidget {
-  SubjectResourcesPage({super.key, required this.subject});
+  const SubjectResourcesPage({super.key, required this.subject});
 
-  Subject subject;
+  final Subject subject;
 
   @override
   State<SubjectResourcesPage> createState() => _SubjectResourcesPageState();
@@ -67,6 +67,16 @@ class _SubjectResourcesPageState extends State<SubjectResourcesPage>
                         return ListTile(
                           title: Text(topic.title),
                           subtitle: Text(topic.description),
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TopicNavigation(topic: topic),
+                            ),
+                          ),
+                          // leading: const Icon(Icons.topic),
+                          trailing: IconButton(
+                              onPressed: () {},
+                              icon: const Icon(Icons.chat)),
                         );
                       },
                     );
@@ -74,8 +84,8 @@ class _SubjectResourcesPageState extends State<SubjectResourcesPage>
               },
             ),
           ),
-          Text("data"),
-          Text("data"),
+          const Text("No data"),
+          const Text("No data"),
           // ListView.builder(
           //   itemCount: widget.subject.saved.length,
           //   itemBuilder: (context, index) {
@@ -102,8 +112,15 @@ class _SubjectResourcesPageState extends State<SubjectResourcesPage>
   }
 
   void _openTopicCreationPage() {
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => TopicCreationPage(),
-    ));
+    Navigator.of(context)
+        .push(MaterialPageRoute(
+      builder: (context) => TopicCreationPage(subjectId: widget.subject.id),
+    ))
+        .then((value) {
+      if (value != null && mounted) {
+        Provider.of<CachedCollection<Topic>>(context, listen: false)
+            .fetch(force: true);
+      }
+    });
   }
 }
