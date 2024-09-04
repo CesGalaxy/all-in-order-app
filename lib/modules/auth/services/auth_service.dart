@@ -4,7 +4,7 @@ import 'package:all_in_order/db/models/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../supabase.dart';
+import '../../../supabase.dart';
 
 class AuthService extends ChangeNotifier {
   Profile? _profile;

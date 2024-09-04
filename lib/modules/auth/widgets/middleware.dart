@@ -1,6 +1,6 @@
-import 'package:all_in_order/features/auth/auth_page.dart';
-import 'package:all_in_order/features/auth/auth_service.dart';
-import 'package:all_in_order/features/auth/create_profile_page.dart';
+import 'package:all_in_order/modules/auth/widgets/auth_page.dart';
+import 'package:all_in_order/modules/auth/services/auth_service.dart';
+import 'package:all_in_order/modules/auth/widgets/create_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

@@ -1,6 +1,6 @@
-import 'package:all_in_order/features/auth/auth_service.dart';
-import 'package:all_in_order/features/auth/middleware.dart';
-import 'package:all_in_order/features/home/navigation.dart';
+import 'package:all_in_order/modules/auth/services/auth_service.dart';
+import 'package:all_in_order/modules/auth/widgets/middleware.dart';
+import 'package:all_in_order/modules/home/widgets/navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';

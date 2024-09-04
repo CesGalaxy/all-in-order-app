@@ -4,9 +4,9 @@ import 'package:all_in_order/widgets/empty_collection_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../db/models/topic.dart';
-import '../topic/create_page.dart';
-import '../topic/navigation.dart';
+import '../../../db/models/topic.dart';
+import '../../topic/widgets/create_page.dart';
+import '../../topic/widgets/navigation.dart';
 
 class SubjectResourcesPage extends StatefulWidget {
   const SubjectResourcesPage({super.key, required this.subject});
@@ -70,13 +70,13 @@ class _SubjectResourcesPageState extends State<SubjectResourcesPage>
                           onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => TopicNavigation(topic: topic),
+                              builder: (context) =>
+                                  TopicNavigation(topic: topic),
                             ),
                           ),
                           // leading: const Icon(Icons.topic),
                           trailing: IconButton(
-                              onPressed: () {},
-                              icon: const Icon(Icons.chat)),
+                              onPressed: () {}, icon: const Icon(Icons.chat)),
                         );
                       },
                     );

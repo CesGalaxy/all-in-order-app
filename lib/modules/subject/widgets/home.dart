@@ -1,9 +1,11 @@
 import 'package:all_in_order/api/cached_collection.dart';
 import 'package:all_in_order/db/models/subject.dart';
 import 'package:all_in_order/db/models/subject_note.dart';
-import 'package:all_in_order/features/note/view_modal.dart';
+import 'package:all_in_order/modules/note/view_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../../note/create_modal.dart';
 
 class SubjectHome extends StatelessWidget {
   const SubjectHome(
@@ -24,9 +26,15 @@ class SubjectHome extends StatelessWidget {
             height: 16,
           ),
           Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text("Latest Notes",
-                style: Theme.of(context).textTheme.headlineMedium),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("Latest Notes",
+                    style: Theme.of(context).textTheme.headlineMedium),
+                IconButton(onPressed: () {}, icon: const Icon(Icons.post_add))
+              ],
+            ),
           ),
           _latestNotes(
             context,
@@ -90,8 +98,7 @@ class SubjectHome extends StatelessWidget {
                       .headlineLarge
                       ?.copyWith(color: Colors.white),
                 ),
-                if (subject.description != null)
-                  const SizedBox(height: 10),
+                if (subject.description != null) const SizedBox(height: 10),
                 if (subject.description != null)
                   Text(
                     subject.description!,
@@ -140,7 +147,8 @@ class SubjectHome extends StatelessWidget {
             if (notes.items.isEmpty) {
               return Center(
                 child: FilledButton(
-                  onPressed: () {},
+                  onPressed: () => showCreateNoteModal(context, subject.id)
+                      .then((_) => notes.refresh(force: true)),
                   child: const Text("Create a new note"),
                 ),
               );

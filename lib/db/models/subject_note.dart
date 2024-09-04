@@ -22,7 +22,6 @@ class SubjectNote {
         .from('subject_notes')
         .select()
         .eq('subject_id', subjectId);
-        // .order('id', ascending: false);
 
     return data.map((e) => SubjectNote.fromJson(e)).toList();
   }

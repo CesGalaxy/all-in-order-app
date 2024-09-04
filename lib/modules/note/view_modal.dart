@@ -1,4 +1,4 @@
-import 'package:all_in_order/features/note/edit_modal.dart';
+import 'package:all_in_order/modules/note/edit_modal.dart';
 import 'package:flutter/material.dart';
 
 import '../../db/models/subject_note.dart';

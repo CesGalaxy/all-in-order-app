@@ -5,9 +5,9 @@ import 'package:all_in_order/db/models/topic.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../api/cached_collection.dart';
-import '../../db/models/subject_note.dart';
-import 'navigation.dart';
+import '../../../api/cached_collection.dart';
+import '../../../db/models/subject_note.dart';
+import './navigation.dart';
 
 class SubjectProviders extends StatefulWidget {
   const SubjectProviders({super.key, required this.subject});

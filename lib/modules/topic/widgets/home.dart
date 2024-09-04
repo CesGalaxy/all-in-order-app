@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../db/models/topic.dart';
+import '../../../db/models/topic.dart';
 
 class TopicHome extends StatefulWidget {
   const TopicHome({super.key, required this.topic});

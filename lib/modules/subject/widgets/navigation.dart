@@ -1,7 +1,7 @@
 import 'package:all_in_order/db/models/subject.dart';
-import 'package:all_in_order/features/subject/home.dart';
-import 'package:all_in_order/features/subject/resources.dart';
-import 'package:all_in_order/features/subject/tasks.dart';
+import 'package:all_in_order/modules/subject/widgets/home.dart';
+import 'package:all_in_order/modules/subject/widgets/resources.dart';
+import 'package:all_in_order/modules/subject/widgets/tasks.dart';
 import 'package:flutter/material.dart';
 
 class SubjectNavigation extends StatefulWidget {

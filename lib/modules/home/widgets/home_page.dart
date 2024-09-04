@@ -1,6 +1,6 @@
 import 'package:all_in_order/db/models/subject.dart';
 import 'package:all_in_order/db/models/course.dart';
-import 'package:all_in_order/features/subject/providers.dart';
+import 'package:all_in_order/modules/subject/widgets/providers.dart';
 import 'package:all_in_order/supabase.dart';
 import 'package:flutter/material.dart';
 

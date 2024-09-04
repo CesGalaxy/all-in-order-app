@@ -1,4 +1,4 @@
-import 'package:all_in_order/features/home/home_page.dart';
+import 'package:all_in_order/modules/home/widgets/home_page.dart';
 import 'package:flutter/material.dart';
 
 class HomeNavigation extends StatefulWidget {
