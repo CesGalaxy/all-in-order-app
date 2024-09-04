@@ -1,11 +1,11 @@
 import 'package:all_in_order/api/cached_collection.dart';
 import 'package:all_in_order/db/models/subject.dart';
 import 'package:all_in_order/db/models/subject_note.dart';
-import 'package:all_in_order/modules/note/view_modal.dart';
+import 'package:all_in_order/modules/note/modals/view_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../note/create_modal.dart';
+import '../../note/modals/create_modal.dart';
 
 class SubjectHome extends StatelessWidget {
   const SubjectHome(
@@ -32,7 +32,10 @@ class SubjectHome extends StatelessWidget {
               children: [
                 Text("Latest Notes",
                     style: Theme.of(context).textTheme.headlineMedium),
-                IconButton(onPressed: () {}, icon: const Icon(Icons.post_add))
+                IconButton(
+                  onPressed: () => _showCreateNoteModal(context),
+                  icon: const Icon(Icons.post_add),
+                )
               ],
             ),
           ),
@@ -147,8 +150,7 @@ class SubjectHome extends StatelessWidget {
             if (notes.items.isEmpty) {
               return Center(
                 child: FilledButton(
-                  onPressed: () => showCreateNoteModal(context, subject.id)
-                      .then((_) => notes.refresh(force: true)),
+                  onPressed: () => _showCreateNoteModal(context),
                   child: const Text("Create a new note"),
                 ),
               );
@@ -207,5 +209,13 @@ class SubjectHome extends StatelessWidget {
         }
       },
     );
+  }
+
+  Future _showCreateNoteModal(BuildContext context) async {
+    await showCreateNoteModal(context, subject.id);
+    if (context.mounted) {
+      Provider.of<CachedCollection<SubjectNote>>(context, listen: false)
+          .refresh(force: true);
+    }
   }
 }

@@ -10,23 +10,23 @@ class HomeNavigation extends StatefulWidget {
 
 class _HomeNavigationState extends State<HomeNavigation>
     with SingleTickerProviderStateMixin {
+  static const _navbarAnimationDuration = Duration(milliseconds: 200);
+
   late PageController _pageViewController = PageController(initialPage: 1);
 
-  late AnimationController _navbarAnimationController = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 200),
-  );
+  late AnimationController _navbarAnimationController =
+      AnimationController(vsync: this, duration: _navbarAnimationDuration);
 
   int _activeIndex = 1;
+
   bool _showNavbar = true;
 
   @override
   void initState() {
     _pageViewController = PageController(initialPage: 1);
-    _navbarAnimationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 200),
-    );
+    _navbarAnimationController =
+        AnimationController(vsync: this, duration: _navbarAnimationDuration);
+
     super.initState();
   }
 
@@ -34,6 +34,7 @@ class _HomeNavigationState extends State<HomeNavigation>
   void dispose() {
     _pageViewController.dispose();
     _navbarAnimationController.dispose();
+
     super.dispose();
   }
 
@@ -44,43 +45,35 @@ class _HomeNavigationState extends State<HomeNavigation>
         controller: _pageViewController,
         children: <Widget>[
           Scaffold(
-            body: FilledButton(onPressed: _toggleBottomNavbar, child: const Text("Toggle1")),
+            body: FilledButton(
+                onPressed: _toggleBottomNavbar, child: const Text("Toggle1")),
           ),
           const HomePage(),
           Scaffold(
-            body: FilledButton(onPressed: _toggleBottomNavbar, child: const Text("Toggle1")),
+            body: FilledButton(
+                onPressed: _toggleBottomNavbar, child: const Text("Toggle1")),
           ),
         ],
-        onPageChanged: (index) {
-          setState(() {
-            _activeIndex = index;
-          });
-        },
+        onPageChanged: (index) => setState(() => _activeIndex = index),
       ),
       bottomNavigationBar: AnimatedBuilder(
         animation: _navbarAnimationController,
-        builder: (BuildContext context, Widget? child) {
-          return AnimatedContainer(
-            // color: Colors.blueGrey,
-            duration: const Duration(milliseconds: 200),
-            height: _showNavbar ? 80 : 0,
-            child: AnimatedOpacity(
-              duration: const Duration(milliseconds: 200),
-              opacity: _showNavbar ? 1 : 0,
-              child: child,
-            ),
-          );
-        },
+        builder: (BuildContext context, Widget? child) => AnimatedContainer(
+          duration: _navbarAnimationDuration,
+          height: _showNavbar ? 80 : 0,
+          child: AnimatedOpacity(
+            duration: _navbarAnimationDuration,
+            opacity: _showNavbar ? 1 : 0,
+            child: child,
+          ),
+        ),
         child: NavigationBar(
-          onDestinationSelected: (int index) {
-            setState(() {
-              _pageViewController.animateToPage(
-                index,
-                duration: const Duration(milliseconds: 200),
-                curve: Curves.bounceOut,
-              );
-            });
-          },
+          onDestinationSelected: (int index) =>
+              setState(() => _pageViewController.animateToPage(
+                    index,
+                    duration: _navbarAnimationDuration,
+                    curve: Curves.bounceOut,
+                  )),
           selectedIndex: _activeIndex,
           labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
           destinations: const <Widget>[

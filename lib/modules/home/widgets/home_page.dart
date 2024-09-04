@@ -16,9 +16,9 @@ class _HomePageState extends State<HomePage> {
   late double height;
 
   TextEditingController _newCourseOrSubjectNameController =
-  TextEditingController();
+      TextEditingController();
   TextEditingController _newCourseOrSubjectDescriptionController =
-  TextEditingController();
+      TextEditingController();
 
   Color _newSubjectColor = Colors.blue;
 
@@ -63,12 +63,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    width = MediaQuery
-        .sizeOf(context)
-        .width;
-    height = MediaQuery
-        .sizeOf(context)
-        .height;
+    width = MediaQuery.sizeOf(context).width;
+    height = MediaQuery.sizeOf(context).height;
 
     return Scaffold(
       appBar: AppBar(
@@ -88,47 +84,42 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: ListView(
-        children: [
-          FutureBuilder<List<Course>?>(
-              future: _coursesFetch,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                }
+      body: FutureBuilder<List<Course>?>(
+          future: _coursesFetch,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
 
-                if (snapshot.hasError) {
-                  return Text("Error: ${snapshot.error}");
-                }
+            if (snapshot.hasError) {
+              return Text("Error: ${snapshot.error}");
+            }
 
-                if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return Center(
-                    heightFactor: 2,
-                    child: FilledButton(
-                        onPressed: _showCourseCreationModal,
-                        child: const Text("Create a new course")),
-                  );
-                }
+            if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              return Center(
+                heightFactor: 2,
+                child: FilledButton(
+                    onPressed: _showCourseCreationModal,
+                    child: const Text("Create a new course")),
+              );
+            }
 
-                final courses = snapshot.data as List<Course>;
+            final courses = snapshot.data as List<Course>;
 
-                return ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: courses.length,
-                  itemBuilder: (context, index) =>
-                      ExpansionTile(
-                        shape: const Border(),
-                        initiallyExpanded: true,
-                        title: Text(courses[index].name),
-                        subtitle: courses[index].description != null
-                            ? Text(courses[index].description!)
-                            : null,
-                        children: [_courseSubjects(context, courses[index])],
-                      ),
-                );
-              })
-        ],
-      ),
+            return ListView.builder(
+              shrinkWrap: true,
+              itemCount: courses.length,
+              itemBuilder: (context, index) => ExpansionTile(
+                shape: const Border(),
+                initiallyExpanded: true,
+                title: Text(courses[index].name),
+                subtitle: courses[index].description != null
+                    ? Text(courses[index].description!)
+                    : null,
+                children: [_courseSubjects(context, courses[index])],
+              ),
+            );
+          }),
     );
   }
 
@@ -137,24 +128,22 @@ class _HomePageState extends State<HomePage> {
       constraints: const BoxConstraints(maxHeight: 128),
       child: course.subjects!.isEmpty
           ? Center(
-        child: FilledButton(
-          onPressed: () => _showSubjectCreationModal(course.id),
-          child: const Text("Create a new subject"),
-        ),
-      )
+              child: FilledButton(
+                onPressed: () => _showSubjectCreationModal(course.id),
+                child: const Text("Create a new subject"),
+              ),
+            )
           : CarouselView.weighted(
-        // controller: _,
-        itemSnapping: true,
-        flexWeights: const <int>[1, 7, 1],
-        children:
-        course.subjects!.map(_spaceProjectHeroLayoutCard).toList(),
-        onTap: (index) =>
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        SubjectProviders(subject: course.subjects![index]))),
-      ),
+              itemSnapping: true,
+              flexWeights: const <int>[1, 7, 1],
+              children:
+                  course.subjects!.map(_spaceProjectHeroLayoutCard).toList(),
+              onTap: (index) => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          SubjectProviders(subject: course.subjects![index]))),
+            ),
     );
   }
 
@@ -183,8 +172,7 @@ class _HomePageState extends State<HomePage> {
                 subject.name,
                 overflow: TextOverflow.clip,
                 softWrap: false,
-                style: Theme
-                    .of(context)
+                style: Theme.of(context)
                     .textTheme
                     .headlineLarge
                     ?.copyWith(color: Colors.white),
@@ -195,8 +183,7 @@ class _HomePageState extends State<HomePage> {
                   subject.description!,
                   overflow: TextOverflow.clip,
                   softWrap: false,
-                  style: Theme
-                      .of(context)
+                  style: Theme.of(context)
                       .textTheme
                       .bodyMedium
                       ?.copyWith(color: Colors.white),
@@ -219,10 +206,7 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.all(16),
             children: [
               Text("Create a new course",
-                  style: Theme
-                      .of(context)
-                      .textTheme
-                      .headlineMedium),
+                  style: Theme.of(context).textTheme.headlineMedium),
               const SizedBox(height: 16),
               TextField(
                 controller: _newCourseOrSubjectNameController,
@@ -290,10 +274,7 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.all(16),
             children: [
               Text("Create a new subject",
-                  style: Theme
-                      .of(context)
-                      .textTheme
-                      .headlineMedium),
+                  style: Theme.of(context).textTheme.headlineMedium),
               const SizedBox(height: 16),
               TextField(
                 controller: _newCourseOrSubjectNameController,
@@ -309,34 +290,30 @@ class _HomePageState extends State<HomePage> {
               ),
               const SizedBox(height: 16),
               Text("Select the color of the subject",
-                  style: Theme
-                      .of(context)
-                      .textTheme
-                      .headlineSmall),
+                  style: Theme.of(context).textTheme.headlineSmall),
               const SizedBox(height: 16),
               Wrap(
                 alignment: WrapAlignment.center,
                 children: subjectColors
-                    .map((color) =>
-                    Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: GestureDetector(
-                        onTap: () {
-                          _newSubjectColor = color;
-                          if (context.mounted) {
-                            _submitSubjectCreation(context, courseId);
-                          }
-                        },
-                        child: Container(
-                          width: 32,
-                          height: 32,
-                          decoration: BoxDecoration(
-                            color: color,
-                            shape: BoxShape.circle,
+                    .map((color) => Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: GestureDetector(
+                            onTap: () {
+                              _newSubjectColor = color;
+                              if (context.mounted) {
+                                _submitSubjectCreation(context, courseId);
+                              }
+                            },
+                            child: Container(
+                              width: 32,
+                              height: 32,
+                              decoration: BoxDecoration(
+                                color: color,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ))
+                        ))
                     .toList(),
               ),
             ],
