@@ -25,6 +25,7 @@ class AllInOrderApp extends StatelessWidget {
         supportedLocales: const [
           Locale('en'), // English
           Locale('es'), // Spanish
+          Locale('ca'), // Valencian
         ],
         home: const AuthMiddleware(child: HomeNavigation()),
       ),
@@ -37,7 +38,10 @@ class AllInOrderApp extends StatelessWidget {
   );
 
   static ThemeData darkTheme = ThemeData(
-    colorScheme: const ColorScheme.dark(primary: Colors.red),
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: Colors.red,
+      brightness: Brightness.dark,
+    ),
     useMaterial3: true,
   );
 }
