@@ -1,4 +1,5 @@
 import 'package:all_in_order/modules/home/widgets/home_page.dart';
+import 'package:all_in_order/modules/user/widgets/me.dart';
 import 'package:flutter/material.dart';
 
 class HomeNavigation extends StatefulWidget {
@@ -49,10 +50,7 @@ class _HomeNavigationState extends State<HomeNavigation>
                 onPressed: _toggleBottomNavbar, child: const Text("Toggle1")),
           ),
           const HomePage(),
-          Scaffold(
-            body: FilledButton(
-                onPressed: _toggleBottomNavbar, child: const Text("Toggle1")),
-          ),
+          const MePage(),
         ],
         onPageChanged: (index) => setState(() => _activeIndex = index),
       ),
