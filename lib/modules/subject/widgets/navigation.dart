@@ -69,10 +69,6 @@ class _SubjectNavigationState extends State<SubjectNavigation>
         ),
         actions: <Widget>[
           IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {},
-          ),
-          IconButton(
             icon: const Icon(Icons.notifications),
             onPressed: () {},
           ),
