@@ -35,8 +35,9 @@ class _SubjectTasksPageState extends State<SubjectTasksPage> {
           child: ListView.builder(
             itemCount: tasks.length,
             itemBuilder: (context, index) {
-              final task =
-                  tasks.where((task) => task.type == 'TASK').toList()[index];
+              final task = tasks
+                  .where((task) => task.type == SubjectEventType.task)
+                  .toList()[index];
 
               return ListTile(
                 title: Text(task.title),

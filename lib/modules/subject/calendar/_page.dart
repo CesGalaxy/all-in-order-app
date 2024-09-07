@@ -4,7 +4,7 @@
 // import 'package:flutter/material.dart';
 // import 'package:provider/provider.dart';
 //
-// import '../../../db/models/agenda.dart';
+// import '../../../db/models/navigation.dart';
 // import '../../../db/models/project_event.dart';
 //
 // class ProjectCalendarPage extends StatefulWidget {

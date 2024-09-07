@@ -22,6 +22,8 @@ class _SubjectCalendarGeneralViewState
   DateTime _focusedDay = DateTime.now();
   DateTime _selectedDay = DateTime.now();
 
+  CalendarFormat _calendarFormat = CalendarFormat.twoWeeks;
+
   List<SubjectEvent> _selectedEvents = [];
 
   @override
@@ -56,6 +58,12 @@ class _SubjectCalendarGeneralViewState
               onPageChanged: (focusedDay) => _focusedDay = focusedDay,
               startingDayOfWeek: StartingDayOfWeek.monday,
               eventLoader: (day) => getEventsForDay(day, events),
+              calendarFormat: _calendarFormat,
+              onFormatChanged: (format) {
+                setState(() {
+                  _calendarFormat = format;
+                });
+              },
             ),
             const Divider(),
             if (_selectedEvents.isEmpty)
