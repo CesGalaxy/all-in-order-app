@@ -59,3 +59,10 @@ class SubjectEvent {
     );
   }
 }
+
+enum SubjectEventType {
+  event,
+  task,
+  reminder,
+  other,
+}

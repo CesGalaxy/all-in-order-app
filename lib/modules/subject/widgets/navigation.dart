@@ -1,8 +1,16 @@
+import 'package:all_in_order/api/cached_collection.dart';
 import 'package:all_in_order/db/models/subject.dart';
+import 'package:all_in_order/db/models/subject_event.dart';
+import 'package:all_in_order/db/models/subject_note.dart';
+import 'package:all_in_order/modules/event/modals/create.dart';
+import 'package:all_in_order/modules/event/modals/create_task.dart';
+import 'package:all_in_order/modules/note/modals/create_modal.dart';
+import 'package:all_in_order/modules/subject/calendar/navigation.dart';
 import 'package:all_in_order/modules/subject/widgets/views/home.dart';
 import 'package:all_in_order/modules/subject/widgets/views/resources.dart';
 import 'package:all_in_order/modules/subject/widgets/views/tasks.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SubjectNavigation extends StatefulWidget {
   const SubjectNavigation({super.key, required this.subject});
@@ -23,7 +31,7 @@ class _SubjectNavigationState extends State<SubjectNavigation>
 
   int _activeIndex = 0;
 
-  bool _showTitle = false;
+  final bool _showTitle = false;
 
   late double width;
   late double height;
@@ -35,6 +43,7 @@ class _SubjectNavigationState extends State<SubjectNavigation>
       vsync: this,
       duration: const Duration(milliseconds: 300),
     );
+
     super.initState();
   }
 
@@ -42,6 +51,7 @@ class _SubjectNavigationState extends State<SubjectNavigation>
   void dispose() {
     _pageViewController.dispose();
     _titleController.dispose();
+
     super.dispose();
   }
 
@@ -70,26 +80,21 @@ class _SubjectNavigationState extends State<SubjectNavigation>
             icon: const Icon(Icons.add),
             itemBuilder: (BuildContext context) => <PopupMenuEntry>[
               PopupMenuItem(
-                onTap: () {},
+                onTap: _showCreateNoteModal,
                 child: const ListTile(
                   leading: Icon(Icons.note_add),
                   title: Text("Add Note"),
                 ),
               ),
               PopupMenuItem(
-                onTap: () {},
-                // onTap: () => Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //         builder: (context) =>
-                //             CreateTaskPage(subject: widget.subject))),
+                onTap: _pushCreateTaskPage,
                 child: const ListTile(
                   leading: Icon(Icons.task),
                   title: Text("Add Task"),
                 ),
               ),
               PopupMenuItem(
-                onTap: () {},
+                onTap: _showCreateEventModal,
                 child: const ListTile(
                   leading: Icon(Icons.calendar_today),
                   title: Text("Add Event"),
@@ -107,7 +112,7 @@ class _SubjectNavigationState extends State<SubjectNavigation>
           SubjectResourcesPage(subject: widget.subject),
           SubjectTasksPage(subject: widget.subject),
           //ProjectCalendarPage(subject: widget.subject),
-          const Text("Hello world!"),
+          SubjectCalendarNavigation(subjectId: widget.subject.id),
           const Text("Hello world!"),
         ],
         onPageChanged: (index) {
@@ -162,5 +167,32 @@ class _SubjectNavigationState extends State<SubjectNavigation>
 
   void _setTitleVisibility(bool visible) {
     _titleController.animateTo(visible ? 1 : 0);
+  }
+
+  void _showCreateNoteModal() async {
+    final created = await showCreateNoteModal(context, widget.subject.id);
+
+    if (created && mounted) {
+      Provider.of<CachedCollection<SubjectNote>>(context, listen: false)
+          .refresh(force: true);
+    }
+  }
+
+  void _pushCreateTaskPage() async {
+    final created = await pushCreateTaskPage(context, widget.subject.id);
+
+    if (created && mounted) {
+      Provider.of<CachedCollection<SubjectEvent>>(context, listen: false)
+          .refresh(force: true);
+    }
+  }
+
+  void _showCreateEventModal() async {
+    final created = await showCreateEventModal(context, widget.subject.id);
+
+    if (created && mounted) {
+      Provider.of<CachedCollection<SubjectEvent>>(context, listen: false)
+          .refresh(force: true);
+    }
   }
 }

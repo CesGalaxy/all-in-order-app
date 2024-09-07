@@ -31,7 +31,6 @@ class _EditNoteModalState extends State<EditNoteModal> {
 
   @override
   Widget build(BuildContext context) {
-    print("object");
     return Scaffold(
       extendBody: false,
       resizeToAvoidBottomInset: true,

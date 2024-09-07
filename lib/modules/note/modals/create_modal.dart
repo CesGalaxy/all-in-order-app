@@ -3,12 +3,13 @@ import 'package:all_in_order/supabase.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-Future showCreateNoteModal(BuildContext context, int subjectId) {
-  return showModalBottomSheet(
-    context: context,
-    isScrollControlled: true,
-    builder: (context) => CreateNoteModal(subjectId: subjectId),
-  );
+Future<bool> showCreateNoteModal(BuildContext context, int subjectId) async {
+  return await showModalBottomSheet<bool>(
+        context: context,
+        isScrollControlled: true,
+        builder: (context) => CreateNoteModal(subjectId: subjectId),
+      ) ??
+      false;
 }
 
 class CreateNoteModal extends StatefulWidget {
@@ -125,9 +126,7 @@ class _CreateNoteModalState extends State<CreateNoteModal> {
         'content': content,
         'tags': tags,
       }).then((value) {
-        if (mounted) {
-          Navigator.of(context).pop();
-        }
+        if (mounted) Navigator.of(context).pop(true);
       });
     }
   }
