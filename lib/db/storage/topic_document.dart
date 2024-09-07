@@ -12,7 +12,5 @@ Future<List<FileObject>> getAllTopicsDocuments() {
 }
 
 Future<List<FileObject>> getTopicDocuments(int topicId) async {
-  final allDocs = await getAllTopicsDocuments();
-
-  return allDocs.where((file) => file.name.startsWith("$topicId/")).toList();
+  return supabase.storage.from("topic_documents").list(path: "$topicId/");
 }
