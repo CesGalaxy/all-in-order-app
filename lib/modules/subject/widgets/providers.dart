@@ -2,7 +2,6 @@ import 'package:all_in_order/api/cached_collection.dart';
 import 'package:all_in_order/db/models/subject.dart';
 import 'package:all_in_order/db/models/subject_event.dart';
 import 'package:all_in_order/db/models/subject_note.dart';
-import 'package:all_in_order/db/models/subject_task.dart';
 import 'package:all_in_order/db/models/topic.dart';
 import 'package:all_in_order/modules/subject/widgets/navigation.dart';
 import 'package:flutter/material.dart';
@@ -24,12 +23,6 @@ class _SubjectProvidersState extends State<SubjectProviders> {
     cacheDuration: const Duration(minutes: 5),
   );
 
-  late CachedCollection<SubjectTask> _subjectTasks =
-      CachedCollection<SubjectTask>(
-    fetch: () async => (await SubjectTask.fetchByProject(widget.subject.id))!,
-    cacheDuration: const Duration(minutes: 5),
-  );
-
   late CachedCollection<SubjectEvent> _subjectEvents =
       CachedCollection<SubjectEvent>(
     fetch: () async => (await SubjectEvent.fetchBySubject(widget.subject.id))!,
@@ -45,11 +38,6 @@ class _SubjectProvidersState extends State<SubjectProviders> {
   void initState() {
     _subjectNotes = CachedCollection<SubjectNote>(
       fetch: () async => (await SubjectNote.fetchBySubject(widget.subject.id))!,
-      cacheDuration: const Duration(minutes: 5),
-    );
-
-    _subjectTasks = CachedCollection<SubjectTask>(
-      fetch: () async => (await SubjectTask.fetchByProject(widget.subject.id))!,
       cacheDuration: const Duration(minutes: 5),
     );
 
@@ -70,7 +58,6 @@ class _SubjectProvidersState extends State<SubjectProviders> {
   @override
   void dispose() {
     _subjectNotes.dispose();
-    _subjectTasks.dispose();
     _subjectEvents.dispose();
     _subjectTopics.dispose();
 
@@ -80,14 +67,12 @@ class _SubjectProvidersState extends State<SubjectProviders> {
   @override
   Widget build(BuildContext context) {
     _subjectNotes.refresh();
-    _subjectTasks.refresh();
     _subjectEvents.refresh();
     _subjectTopics.refresh();
 
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(value: _subjectNotes),
-        ChangeNotifierProvider.value(value: _subjectTasks),
         ChangeNotifierProvider.value(value: _subjectEvents),
         ChangeNotifierProvider.value(value: _subjectTopics),
       ],

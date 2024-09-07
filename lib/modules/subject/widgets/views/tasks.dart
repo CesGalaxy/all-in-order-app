@@ -1,7 +1,6 @@
 import 'package:all_in_order/api/cached_collection.dart';
 import 'package:all_in_order/db/models/subject.dart';
 import 'package:all_in_order/db/models/subject_event.dart';
-import 'package:all_in_order/db/models/subject_task.dart';
 import 'package:all_in_order/modules/task/create_page.dart';
 import 'package:all_in_order/modules/task/view_modal.dart';
 import 'package:all_in_order/widgets/cache_handler.dart';
@@ -47,10 +46,7 @@ class _SubjectTasksPageState extends State<SubjectTasksPage> {
                   await showTaskViewModal(context, task);
 
                   if (context.mounted) {
-                    Provider.of<CachedCollection<SubjectTask>>(
-                      context,
-                      listen: false,
-                    ).refresh(force: true);
+                    // TODO
                   }
                 },
                 trailing: IconButton(
