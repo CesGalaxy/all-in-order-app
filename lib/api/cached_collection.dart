@@ -40,22 +40,33 @@ class CachedCollection<T> extends DynamicCollection<T> {
   }
 
   /// Fetch the data and return it
-  Future<List<T>?> fetch({ bool force = false, bool update = true }) async {
+  Future<List<T>?> fetch({bool force = false, bool update = true}) async {
     await refresh(force: force, update: update);
     return maybeItems;
   }
 
   /// Refresh the data if it's older than [cacheDuration], if [force] is true, or if it's the first fetch
-  Future<void> refresh({ bool force = false, bool update = true }) async {
-    if (force || _lastFetch == null || DateTime.now().difference(_lastFetch!) > cacheDuration) {
+  Future<void> refresh({bool force = false, bool update = true}) async {
+    // Check if the data should be refreshed
+    if (force ||
+        _lastFetch == null ||
+        DateTime.now().difference(_lastFetch!) > cacheDuration) {
       try {
+        // Fetch new data
         final newItems = await _fetch();
 
         if (update) {
+          // Update the items (and notify listeners)
           setItems(newItems);
+
+          // Remove any previous errors
+          _error = null;
+
+          // Update the last fetch time
           _lastFetch = DateTime.now();
         }
       } catch (e) {
+        // In case the fetch fails
         _error = e;
       }
     }

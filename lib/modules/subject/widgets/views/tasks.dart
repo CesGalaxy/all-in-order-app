@@ -4,10 +4,10 @@ import 'package:all_in_order/widgets/empty_collection_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../api/cached_collection.dart';
-import '../../../db/models/subject_task.dart';
-import '../../task/create_page.dart';
-import '../../task/view_modal.dart';
+import '../../../../api/cached_collection.dart';
+import '../../../../db/models/subject_task.dart';
+import '../../../task/create_page.dart';
+import '../../../task/view_modal.dart';
 
 class SubjectTasksPage extends StatefulWidget {
   const SubjectTasksPage({super.key, required this.subject});

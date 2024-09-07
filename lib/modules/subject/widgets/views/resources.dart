@@ -1,12 +1,11 @@
 import 'package:all_in_order/api/cached_collection.dart';
 import 'package:all_in_order/db/models/subject.dart';
+import 'package:all_in_order/db/models/topic.dart';
 import 'package:all_in_order/widgets/empty_collection_screen.dart';
+import 'package:all_in_order/modules/topic/widgets/create_page.dart';
+import 'package:all_in_order/modules/topic/widgets/navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../../db/models/topic.dart';
-import '../../topic/widgets/create_page.dart';
-import '../../topic/widgets/navigation.dart';
 
 class SubjectResourcesPage extends StatefulWidget {
   const SubjectResourcesPage({super.key, required this.subject});

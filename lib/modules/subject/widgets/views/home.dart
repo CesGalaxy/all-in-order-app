@@ -1,11 +1,12 @@
 import 'package:all_in_order/api/cached_collection.dart';
 import 'package:all_in_order/db/models/subject.dart';
 import 'package:all_in_order/db/models/subject_note.dart';
+import 'package:all_in_order/modules/note/modals/create_modal.dart';
 import 'package:all_in_order/modules/note/modals/view_modal.dart';
+import 'package:all_in_order/modules/subject/widgets/views/note_card.dart';
+import 'package:all_in_order/widgets/cache_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../note/modals/create_modal.dart';
 
 class SubjectHome extends StatelessWidget {
   const SubjectHome(
@@ -79,10 +80,7 @@ class SubjectHome extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.centerRight,
                 end: Alignment.centerLeft,
-                colors: <Color>[
-                  Color(0x10000000),
-                  Color(0x80000000),
-                ],
+                colors: <Color>[Color(0x10000000), Color(0x80000000)],
               ),
             ),
           ),
@@ -121,93 +119,34 @@ class SubjectHome extends StatelessWidget {
   }
 
   Widget _latestNotes(BuildContext context, Function refresh) {
-    return Consumer<CachedCollection<SubjectNote>>(
-      builder: (context, notes, child) {
-        switch (notes.status) {
-          case CachedDataStatus.initializing:
-            return const Center(child: CircularProgressIndicator());
-          case CachedDataStatus.error:
-            return Center(
-              child: ActionChip(
-                avatar: const Icon(Icons.error, color: Colors.white),
-                label: const Text(
-                  "An error occurred",
-                  style: TextStyle(color: Colors.white),
-                ),
-                backgroundColor: Theme.of(context).colorScheme.error,
-                onPressed: () {
-                  notes.fetch(force: true);
+    return SizedBox(
+      height: 96,
+      child: CacheHandler(
+        collection: Provider.of<CachedCollection<SubjectNote>>(context),
+        errorAction: (error) {},
+        errorDetails: (error) => error.toString(),
+        emptyActionLabel: "Create a new note",
+        emptyAction: () => _showCreateNoteModal(context),
+        builder: (BuildContext context, List<SubjectNote> notes, Widget? _) {
+          return ListView.builder(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            scrollDirection: Axis.horizontal,
+            itemCount: notes.length,
+            itemBuilder: (context, index) {
+              final note = notes[index];
 
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(notes.error!.toString()),
-                    ),
-                  );
+              return NoteCard(
+                note: note,
+                action: () async {
+                  final edited =
+                      await showNoteModal(context, note, allowEditing: true);
+                  if (edited) refresh();
                 },
-              ),
-            );
-          case CachedDataStatus.done:
-            if (notes.items.isEmpty) {
-              return Center(
-                child: FilledButton(
-                  onPressed: () => _showCreateNoteModal(context),
-                  child: const Text("Create a new note"),
-                ),
               );
-            }
-
-            return SizedBox(
-              height: 96,
-              child: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                scrollDirection: Axis.horizontal,
-                children: notes.items
-                    .map((note) => Card(
-                          clipBehavior: Clip.hardEdge,
-                          child: InkWell(
-                            onTap: () =>
-                                showNoteModal(context, note, allowEditing: true)
-                                    .then((edited) {
-                              if (edited) {
-                                refresh();
-                              }
-                              // TODO: Refresh the stateless widget
-                            }),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    note.title ?? "Untitled",
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge,
-                                  ),
-                                  if (note.tags != null)
-                                    Wrap(
-                                      spacing: 4,
-                                      children: note.tags!
-                                          .map((tag) => Chip(
-                                                label: Text(tag,
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .labelSmall),
-                                                padding:
-                                                    const EdgeInsets.all(0.0),
-                                              ))
-                                          .toList(),
-                                    ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ))
-                    .toList(),
-              ),
-            );
-        }
-      },
+            },
+          );
+        },
+      ),
     );
   }
 
