@@ -17,7 +17,8 @@ class SubjectHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<CachedCollection<SubjectNote>>(context, listen: false).fetch();
+    Provider.of<CachedCollection<SubjectNote>>(context, listen: false)
+        .refresh();
 
     return Scaffold(
       body: ListView(
@@ -31,8 +32,10 @@ class SubjectHome extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Latest Notes",
-                    style: Theme.of(context).textTheme.headlineMedium),
+                Text(
+                  "Latest Notes",
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
                 IconButton(
                   onPressed: () => _showCreateNoteModal(context),
                   icon: const Icon(Icons.post_add),
@@ -40,16 +43,13 @@ class SubjectHome extends StatelessWidget {
               ],
             ),
           ),
-          _latestNotes(
-            context,
-            () => Provider.of<CachedCollection<SubjectNote>>(context,
-                    listen: false)
-                .refresh(force: true),
-          ),
+          _latestNotes(context),
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Text("Next Events",
-                style: Theme.of(context).textTheme.headlineMedium),
+            child: Text(
+              "Next Events",
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
           )
         ],
       ),
@@ -118,7 +118,7 @@ class SubjectHome extends StatelessWidget {
     );
   }
 
-  Widget _latestNotes(BuildContext context, Function refresh) {
+  Widget _latestNotes(BuildContext context) {
     return SizedBox(
       height: 96,
       child: CacheHandler(
@@ -140,7 +140,12 @@ class SubjectHome extends StatelessWidget {
                 action: () async {
                   final edited =
                       await showNoteModal(context, note, allowEditing: true);
-                  if (edited) refresh();
+                  if (edited && context.mounted) {
+                    Provider.of<CachedCollection<SubjectNote>>(
+                      context,
+                      listen: false,
+                    ).refresh(force: true);
+                  }
                 },
               );
             },

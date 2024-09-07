@@ -1,13 +1,12 @@
+import 'package:all_in_order/api/cached_collection.dart';
 import 'package:all_in_order/db/models/subject.dart';
 import 'package:all_in_order/db/models/subject_event.dart';
+import 'package:all_in_order/db/models/subject_note.dart';
 import 'package:all_in_order/db/models/subject_task.dart';
 import 'package:all_in_order/db/models/topic.dart';
+import 'package:all_in_order/modules/subject/widgets/navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../../api/cached_collection.dart';
-import '../../../db/models/subject_note.dart';
-import './navigation.dart';
 
 class SubjectProviders extends StatefulWidget {
   const SubjectProviders({super.key, required this.subject});
@@ -74,15 +73,16 @@ class _SubjectProvidersState extends State<SubjectProviders> {
     _subjectTasks.dispose();
     _subjectEvents.dispose();
     _subjectTopics.dispose();
+
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    _subjectNotes.fetch();
-    _subjectTasks.fetch();
-    _subjectEvents.fetch();
-    _subjectTopics.fetch();
+    _subjectNotes.refresh();
+    _subjectTasks.refresh();
+    _subjectEvents.refresh();
+    _subjectTopics.refresh();
 
     return MultiProvider(
       providers: [
