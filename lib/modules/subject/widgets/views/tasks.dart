@@ -1,7 +1,7 @@
 import 'package:all_in_order/api/cached_collection.dart';
 import 'package:all_in_order/db/models/subject.dart';
 import 'package:all_in_order/db/models/subject_event.dart';
-import 'package:all_in_order/modules/task/create_page.dart';
+import 'package:all_in_order/modules/event/modals/create_task.dart';
 import 'package:all_in_order/modules/task/view_modal.dart';
 import 'package:all_in_order/widgets/cache_handler.dart';
 import 'package:flutter/material.dart';
@@ -26,8 +26,7 @@ class _SubjectTasksPageState extends State<SubjectTasksPage> {
         errorAction: (_) {},
         emptyTitle: "No tasks found",
         emptyActionLabel: "Create Task",
-        emptyAction: () => Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => CreateTaskPage(subject: widget.subject))),
+        emptyAction: () => _pushCreateTaskPage(),
         builder: (context, tasks, _) => RefreshIndicator(
           onRefresh: () => Provider.of<CachedCollection<SubjectEvent>>(
             context,
@@ -62,11 +61,18 @@ class _SubjectTasksPageState extends State<SubjectTasksPage> {
       ),
       floatingActionButton: FloatingActionButton(
         tooltip: 'Create Task',
-        onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => CreateTaskPage(subject: widget.subject),
-        )),
+        onPressed: () => _pushCreateTaskPage(),
         child: const Icon(Icons.add),
       ),
     );
+  }
+
+  void _pushCreateTaskPage() async {
+    final created = await pushCreateTaskPage(context, widget.subject.id);
+
+    if (created && mounted) {
+      Provider.of<CachedCollection<SubjectEvent>>(context, listen: false)
+          .refresh(force: true);
+    }
   }
 }
