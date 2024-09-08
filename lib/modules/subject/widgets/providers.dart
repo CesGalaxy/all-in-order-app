@@ -70,8 +70,6 @@ class _SubjectProvidersState extends State<SubjectProviders> {
     _subjectEvents.refresh();
     _subjectTopics.refresh();
 
-    print(widget.subject.color);
-
     return Theme(
       data: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: widget.subject.color),
