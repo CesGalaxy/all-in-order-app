@@ -35,7 +35,8 @@ class MePage extends StatelessWidget {
                   CircleAvatar(
                     radius: 60,
                     backgroundColor: Colors.redAccent[50],
-                    child: const Text("AB", style: TextStyle(fontSize: 60)),
+                    child: Text(profile.name[0],
+                        style: const TextStyle(fontSize: 60)),
                   ),
                   Positioned(
                     bottom: 0,
@@ -89,7 +90,7 @@ class MePage extends StatelessWidget {
                     builder: (context) {
                       return AlertDialog(
                         title: const Text("Select Language"),
-                        content: Container(
+                        content: SizedBox(
                           height: 168,
                           child: Column(
                             children: [
@@ -127,6 +128,7 @@ class MePage extends StatelessWidget {
                 icon: Icons.person,
                 onPress: () {},
               ),
+              const SizedBox(height: 10),
               const Divider(),
               const SizedBox(height: 10),
               ProfileMenuWidget(

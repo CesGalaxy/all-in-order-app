@@ -88,9 +88,10 @@ class _HomePageState extends State<HomePage> {
           itemBuilder: (context, index) => _courseTile(courses[index]),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.extended(
         onPressed: _showCourseCreationModal,
-        child: const Icon(Icons.add),
+        icon: const Icon(Icons.create_new_folder),
+        label: const Text("New course"),
       ),
     );
   }

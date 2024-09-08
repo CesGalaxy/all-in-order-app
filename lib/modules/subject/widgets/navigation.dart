@@ -8,6 +8,7 @@ import 'package:all_in_order/modules/note/modals/create_modal.dart';
 import 'package:all_in_order/modules/subject/calendar/navigation.dart';
 import 'package:all_in_order/modules/subject/widgets/views/home.dart';
 import 'package:all_in_order/modules/subject/widgets/views/resources.dart';
+import 'package:all_in_order/modules/subject/widgets/views/settings.dart';
 import 'package:all_in_order/modules/subject/widgets/views/tasks.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -69,8 +70,13 @@ class _SubjectNavigationState extends State<SubjectNavigation>
         ),
         actions: <Widget>[
           IconButton(
-            icon: const Icon(Icons.notifications),
-            onPressed: () {},
+            icon: const Icon(Icons.settings),
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) =>
+                    SubjectSettingsPage(subject: widget.subject),
+              ),
+            ),
           ),
           PopupMenuButton(
             icon: const Icon(Icons.add),
