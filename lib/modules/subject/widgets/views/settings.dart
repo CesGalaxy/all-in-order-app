@@ -60,6 +60,14 @@ class _SubjectSettingsPageState extends State<SubjectSettingsPage> {
                   )
                 ],
               ),
+              ListView(
+                children: const [
+                  ListTile(
+                    title: Text('Members'),
+                    subtitle: Text("???"),
+                  ),
+                ],
+              ),
             ],
           ),
         ));
