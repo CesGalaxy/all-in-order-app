@@ -1,3 +1,4 @@
+import 'package:all_in_order/generated/l10n.dart';
 import 'package:all_in_order/modules/subject/agenda/navigation.dart';
 import 'package:all_in_order/modules/subject/calendar/general.dart';
 import 'package:expandable_bottom_sheet/expandable_bottom_sheet.dart';
@@ -34,7 +35,7 @@ class _SubjectCalendarNavigationState extends State<SubjectCalendarNavigation> {
               child: InkWell(
                 child: AppBar(
                   automaticallyImplyLeading: false,
-                  title: const Text("Agenda"),
+                  title: Text(S.of(context).agenda),
                   centerTitle: true,
                   leading: AnimatedRotation(
                     turns: _key.currentState?.expansionStatus ==

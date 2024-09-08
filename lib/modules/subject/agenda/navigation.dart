@@ -1,3 +1,4 @@
+import 'package:all_in_order/generated/l10n.dart';
 import 'package:all_in_order/modules/subject/agenda/today.dart';
 import 'package:flutter/material.dart';
 
@@ -12,15 +13,15 @@ class SubjectAgendaNavigation extends StatefulWidget {
 class _SubjectAgendaNavigationState extends State<SubjectAgendaNavigation> {
   @override
   Widget build(BuildContext context) {
-    return const DefaultTabController(
+    return DefaultTabController(
       length: 3,
       initialIndex: 1,
       child: Scaffold(
         appBar: TabBar(
           tabs: [
-            Tab(text: 'Past'),
-            Tab(text: 'Today'),
-            Tab(text: 'Future'),
+            Tab(text: S.of(context).past),
+            Tab(text: S.of(context).today),
+            Tab(text: S.of(context).future),
           ],
         ),
         body: TabBarView(

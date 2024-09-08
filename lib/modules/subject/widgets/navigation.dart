@@ -2,6 +2,7 @@ import 'package:all_in_order/api/cached_collection.dart';
 import 'package:all_in_order/db/models/subject.dart';
 import 'package:all_in_order/db/models/subject_event.dart';
 import 'package:all_in_order/db/models/subject_note.dart';
+import 'package:all_in_order/generated/l10n.dart';
 import 'package:all_in_order/modules/event/modals/create.dart';
 import 'package:all_in_order/modules/event/modals/create_task.dart';
 import 'package:all_in_order/modules/note/modals/create_modal.dart';
@@ -83,23 +84,23 @@ class _SubjectNavigationState extends State<SubjectNavigation>
             itemBuilder: (BuildContext context) => <PopupMenuEntry>[
               PopupMenuItem(
                 onTap: _showCreateNoteModal,
-                child: const ListTile(
-                  leading: Icon(Icons.note_add),
-                  title: Text("Add Note"),
+                child: ListTile(
+                  leading: const Icon(Icons.note_add),
+                  title: Text(S.of(context).addNote),
                 ),
               ),
               PopupMenuItem(
                 onTap: _pushCreateTaskPage,
-                child: const ListTile(
-                  leading: Icon(Icons.task),
-                  title: Text("Add Task"),
+                child: ListTile(
+                  leading: const Icon(Icons.task),
+                  title: Text(S.of(context).addTask),
                 ),
               ),
               PopupMenuItem(
                 onTap: _showCreateEventModal,
-                child: const ListTile(
-                  leading: Icon(Icons.calendar_today),
-                  title: Text("Add Event"),
+                child: ListTile(
+                  leading: const Icon(Icons.calendar_today),
+                  title: Text(S.of(context).addEvent),
                 ),
               ),
             ],
@@ -136,31 +137,31 @@ class _SubjectNavigationState extends State<SubjectNavigation>
         },
         selectedIndex: _activeIndex,
         labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
-        destinations: const <Widget>[
+        destinations: <Widget>[
           NavigationDestination(
-            selectedIcon: Icon(Icons.home),
-            icon: Icon(Icons.home_outlined),
-            label: "Home",
+            selectedIcon: const Icon(Icons.home),
+            icon: const Icon(Icons.home_outlined),
+            label: S.of(context).home,
           ),
           NavigationDestination(
-            selectedIcon: Icon(Icons.view_agenda),
-            icon: Icon(Icons.view_agenda_outlined),
-            label: "Resources",
+            selectedIcon: const Icon(Icons.view_agenda),
+            icon: const Icon(Icons.view_agenda_outlined),
+            label: S.of(context).resources,
           ),
           NavigationDestination(
-            selectedIcon: Icon(Icons.task_alt),
-            icon: Icon(Icons.task_alt_outlined),
-            label: "Tasks",
+            selectedIcon: const Icon(Icons.task_alt),
+            icon: const Icon(Icons.task_alt_outlined),
+            label: S.of(context).tasks,
           ),
           NavigationDestination(
-            selectedIcon: Icon(Icons.calendar_month),
-            icon: Icon(Icons.calendar_month_outlined),
-            label: "Calendar",
+            selectedIcon: const Icon(Icons.calendar_month),
+            icon: const Icon(Icons.calendar_month_outlined),
+            label: S.of(context).calendar,
           ),
           NavigationDestination(
-            selectedIcon: Icon(Icons.people_alt),
-            icon: Icon(Icons.people_alt_outlined),
-            label: "Team",
+            selectedIcon: const Icon(Icons.people_alt),
+            icon: const Icon(Icons.people_alt_outlined),
+            label: S.of(context).team,
           ),
         ],
       ),

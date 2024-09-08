@@ -1,5 +1,7 @@
+import 'package:all_in_order/generated/l10n.dart';
 import 'package:all_in_order/modules/auth/services/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class MePage extends StatelessWidget {
@@ -10,6 +12,8 @@ class MePage extends StatelessWidget {
     var isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
 
     final profile = Provider.of<AuthService>(context).profile!;
+
+    print(Intl.getCurrentLocale());
 
     return Scaffold(
       appBar: AppBar(
@@ -99,21 +103,21 @@ class MePage extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 title: const Text("English"),
-                                onTap: () {},
+                                onTap: () => _setLocale(context, "en"),
                               ),
                               ListTile(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 title: const Text("Español"),
-                                onTap: () {},
+                                onTap: () => _setLocale(context, "es"),
                               ),
                               ListTile(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 title: const Text("Valenciá"),
-                                onTap: () {},
+                                onTap: () => _setLocale(context, "ca"),
                               ),
                             ],
                           ),
@@ -148,6 +152,11 @@ class MePage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _setLocale(BuildContext context, String languageCode) {
+    S.load(Locale(languageCode));
+    Navigator.of(context).pop();
   }
 }
 

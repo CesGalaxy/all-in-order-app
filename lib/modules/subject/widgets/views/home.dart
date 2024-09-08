@@ -1,6 +1,7 @@
 import 'package:all_in_order/api/cached_collection.dart';
 import 'package:all_in_order/db/models/subject.dart';
 import 'package:all_in_order/db/models/subject_note.dart';
+import 'package:all_in_order/generated/l10n.dart';
 import 'package:all_in_order/modules/note/modals/create_modal.dart';
 import 'package:all_in_order/modules/note/modals/view_modal.dart';
 import 'package:all_in_order/modules/subject/widgets/views/note_card.dart';
@@ -33,7 +34,7 @@ class SubjectHome extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Latest Notes",
+                  S.of(context).latestNotes,
                   style: Theme.of(context).textTheme.headlineMedium,
                 ),
                 IconButton(
@@ -47,7 +48,7 @@ class SubjectHome extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
-              "Next Events",
+              S.of(context).nextEvents,
               style: Theme.of(context).textTheme.headlineMedium,
             ),
           )
@@ -125,7 +126,7 @@ class SubjectHome extends StatelessWidget {
         collection: Provider.of<CachedCollection<SubjectNote>>(context),
         errorAction: (error) {},
         errorDetails: (error) => error.toString(),
-        emptyActionLabel: "Create a new note",
+        emptyActionLabel: S.of(context).createANewNote,
         emptyAction: () => _showCreateNoteModal(context),
         builder: (BuildContext context, List<SubjectNote> notes, Widget? _) {
           return ListView.builder(

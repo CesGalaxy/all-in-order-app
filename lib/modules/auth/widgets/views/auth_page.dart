@@ -1,6 +1,6 @@
+import 'package:all_in_order/generated/l10n.dart';
 import 'package:all_in_order/supabase.dart';
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
@@ -12,7 +12,7 @@ class AuthScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Authentication"),
+        title: Text(S.of(context).authentication),
       ),
       body: ListView(
         padding: const EdgeInsets.all(32.0),
@@ -20,20 +20,20 @@ class AuthScreen extends StatelessWidget {
           TextField(
             controller: emailController,
             keyboardType: TextInputType.emailAddress,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              icon: Icon(Icons.email),
-              labelText: 'Email',
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              icon: const Icon(Icons.email),
+              labelText: S.of(context).email,
             ),
           ),
           const SizedBox(height: 16),
           TextField(
             controller: passwordController,
             obscureText: true,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              icon: Icon(Icons.lock),
-              labelText: 'Password',
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              icon: const Icon(Icons.lock),
+              labelText: S.of(context).password,
             ),
           ),
           const SizedBox(height: 16),
@@ -42,11 +42,11 @@ class AuthScreen extends StatelessWidget {
             children: [
               FilledButton(
                 onPressed: _login,
-                child: const Text("Log In"),
+                child: Text(S.of(context).logIn),
               ),
               FilledButton(
                 onPressed: _register,
-                child: const Text("Register"),
+                child: Text(S.of(context).register),
               ),
             ],
           )

@@ -1,6 +1,7 @@
 import 'package:all_in_order/api/cached_collection.dart';
 import 'package:all_in_order/db/models/subject.dart';
 import 'package:all_in_order/db/models/topic.dart';
+import 'package:all_in_order/generated/l10n.dart';
 import 'package:all_in_order/modules/topic/widgets/create_page.dart';
 import 'package:all_in_order/modules/topic/widgets/navigation.dart';
 import 'package:all_in_order/widgets/cache_handler.dart';
@@ -18,8 +19,8 @@ class SubjectTopicsPage extends StatelessWidget {
       collection: Provider.of<CachedCollection<Topic>>(context),
       errorAction: (_) {},
       errorDetails: (error) => error.toString(),
-      emptyTitle: "No topics found",
-      emptyActionLabel: "Create topic",
+      emptyTitle: S.of(context).noTopicsFound,
+      emptyActionLabel: S.of(context).createTopic,
       emptyAction: () => _openTopicCreationPage(context),
       builder: (context, topics, _) => ListView.builder(
         itemCount: topics.length,

@@ -1,6 +1,7 @@
 import 'package:all_in_order/api/cached_collection.dart';
 import 'package:all_in_order/db/models/subject.dart';
 import 'package:all_in_order/db/models/topic.dart';
+import 'package:all_in_order/generated/l10n.dart';
 import 'package:all_in_order/modules/subject/widgets/views/topics.dart';
 import 'package:all_in_order/modules/topic/widgets/create_page.dart';
 import 'package:flutter/material.dart';
@@ -25,10 +26,10 @@ class _SubjectResourcesPageState extends State<SubjectResourcesPage>
     return Scaffold(
       appBar: TabBar(
         controller: _tabController,
-        tabs: const [
-          Tab(text: 'Topics'),
-          Tab(text: 'Saved'),
-          Tab(text: 'Notes'),
+        tabs: [
+          Tab(text: S.of(context).topics),
+          Tab(text: S.of(context).saved),
+          Tab(text: S.of(context).notes),
         ],
       ),
       body: TabBarView(

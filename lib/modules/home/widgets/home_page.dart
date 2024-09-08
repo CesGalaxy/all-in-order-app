@@ -1,6 +1,7 @@
 import 'package:all_in_order/api/cached_collection.dart';
 import 'package:all_in_order/db/models/course.dart';
 import 'package:all_in_order/db/models/subject.dart';
+import 'package:all_in_order/generated/l10n.dart';
 import 'package:all_in_order/modules/subject/widgets/providers.dart';
 import 'package:all_in_order/supabase.dart';
 import 'package:all_in_order/widgets/cache_handler.dart';
@@ -65,7 +66,7 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("My Courses"),
+        title: Text(S.of(context).myCourses),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.notifications),
@@ -80,7 +81,7 @@ class _HomePageState extends State<HomePage> {
       body: CacheHandler(
         collection: Provider.of<CachedCollection<CourseWithSubjects>>(context),
         errorAction: (_) {},
-        emptyActionLabel: "Create a new course",
+        emptyActionLabel: S.of(context).createANewCourse,
         emptyAction: _showCourseCreationModal,
         builder: (context, courses, _) => ListView.builder(
           shrinkWrap: true,
@@ -91,7 +92,7 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _showCourseCreationModal,
         icon: const Icon(Icons.create_new_folder),
-        label: const Text("New course"),
+        label: Text(S.of(context).newCourse),
       ),
     );
   }
@@ -114,7 +115,7 @@ class _HomePageState extends State<HomePage> {
             ? Center(
                 child: FilledButton(
                   onPressed: () => _showSubjectCreationModal(course.id),
-                  child: const Text("Create a new subject"),
+                  child: Text(S.of(context).createANewSubject),
                 ),
               )
             : CarouselView.weighted(
@@ -182,20 +183,20 @@ class _HomePageState extends State<HomePage> {
         builder: (context) => ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            Text("Create a new course",
+            Text(S.of(context).createANewCourse,
                 style: Theme.of(context).textTheme.headlineMedium),
             TextField(
               controller: _newCourseOrSubjectNameController,
-              decoration: const InputDecoration(labelText: "Name"),
+              decoration: InputDecoration(labelText: S.of(context).name),
             ),
             TextField(
               controller: _newCourseOrSubjectDescriptionController,
-              decoration: const InputDecoration(labelText: "Description"),
+              decoration: InputDecoration(labelText: S.of(context).description),
             ),
             const SizedBox(height: 16),
             FilledButton(
                 onPressed: _submitCourseCreation,
-                child: const Text("Create Course"))
+                child: Text(S.of(context).createCourse))
           ],
         ),
       );
@@ -235,15 +236,15 @@ class _HomePageState extends State<HomePage> {
         builder: (context) => ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            Text("Create a new subject",
+            Text(S.of(context).createANewSubject,
                 style: Theme.of(context).textTheme.headlineMedium),
             TextField(
               controller: _newCourseOrSubjectNameController,
-              decoration: const InputDecoration(labelText: "Name"),
+              decoration: InputDecoration(labelText: S.of(context).name),
             ),
             TextField(
               controller: _newCourseOrSubjectDescriptionController,
-              decoration: const InputDecoration(labelText: "Description"),
+              decoration: InputDecoration(labelText: S.of(context).description),
             ),
             const SizedBox(height: 16),
             Wrap(

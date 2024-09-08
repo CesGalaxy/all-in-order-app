@@ -1,4 +1,5 @@
 import 'package:all_in_order/db/models/subject_note.dart';
+import 'package:all_in_order/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
 class NoteCard extends StatelessWidget {
@@ -24,7 +25,7 @@ class NoteCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                note.title ?? "Untitled",
+                note.title ?? S.of(context).untitled,
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
               if (note.tags != null)

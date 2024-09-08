@@ -1,6 +1,7 @@
 import 'package:all_in_order/api/cached_collection.dart';
 import 'package:all_in_order/db/models/subject.dart';
 import 'package:all_in_order/db/models/subject_event.dart';
+import 'package:all_in_order/generated/l10n.dart';
 import 'package:all_in_order/modules/event/modals/create_task.dart';
 import 'package:all_in_order/modules/task/view_modal.dart';
 import 'package:all_in_order/widgets/cache_handler.dart';
@@ -24,8 +25,8 @@ class _SubjectTasksPageState extends State<SubjectTasksPage> {
         collection: Provider.of<CachedCollection<SubjectEvent>>(context),
         errorDetails: (error) => error.toString(),
         errorAction: (_) {},
-        emptyTitle: "No tasks found",
-        emptyActionLabel: "Create Task",
+        emptyTitle: S.of(context).noTasksFound,
+        emptyActionLabel: S.of(context).createTask,
         emptyAction: () => _pushCreateTaskPage(),
         builder: (context, tasks, _) => RefreshIndicator(
           onRefresh: () => Provider.of<CachedCollection<SubjectEvent>>(
@@ -41,7 +42,7 @@ class _SubjectTasksPageState extends State<SubjectTasksPage> {
 
               return ListTile(
                 title: Text(task.title),
-                subtitle: Text(task.details ?? "No description"),
+                subtitle: Text(task.details ?? S.of(context).noDescription),
                 onTap: () async {
                   final edited = await showTaskViewModal(context, task);
 
@@ -65,7 +66,7 @@ class _SubjectTasksPageState extends State<SubjectTasksPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        tooltip: 'Create Task',
+        tooltip: S.of(context).createTask,
         onPressed: () => _pushCreateTaskPage(),
         child: const Icon(Icons.add),
       ),

@@ -1,3 +1,4 @@
+import 'package:all_in_order/generated/l10n.dart';
 import 'package:all_in_order/modules/home/widgets/home_page.dart';
 import 'package:all_in_order/modules/user/widgets/me.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +48,8 @@ class _HomeNavigationState extends State<HomeNavigation>
         children: <Widget>[
           Scaffold(
             body: FilledButton(
-                onPressed: _toggleBottomNavbar, child: const Text("Toggle1")),
+                onPressed: _toggleBottomNavbar,
+                child: const Text("Coming soon!")),
           ),
           const HomePage(),
           const MePage(),
@@ -66,29 +68,30 @@ class _HomeNavigationState extends State<HomeNavigation>
           ),
         ),
         child: NavigationBar(
-          onDestinationSelected: (int index) =>
-              setState(() => _pageViewController.animateToPage(
-                    index,
-                    duration: _navbarAnimationDuration,
-                    curve: Curves.bounceOut,
-                  )),
+          onDestinationSelected: (int index) => setState(() {
+            _pageViewController.animateToPage(
+              index,
+              duration: _navbarAnimationDuration,
+              curve: Curves.bounceOut,
+            );
+          }),
           selectedIndex: _activeIndex,
           labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
-          destinations: const <Widget>[
+          destinations: <Widget>[
             NavigationDestination(
-              selectedIcon: Icon(Icons.view_agenda),
-              icon: Icon(Icons.view_agenda_outlined),
-              label: 'Agenda',
+              selectedIcon: const Icon(Icons.view_agenda),
+              icon: const Icon(Icons.view_agenda_outlined),
+              label: S.of(context).agenda,
             ),
             NavigationDestination(
-              selectedIcon: Icon(Icons.home),
-              icon: Icon(Icons.home_outlined),
-              label: 'Home',
+              selectedIcon: const Icon(Icons.home),
+              icon: const Icon(Icons.home_outlined),
+              label: S.of(context).home,
             ),
             NavigationDestination(
-              selectedIcon: Icon(Icons.person),
-              icon: Icon(Icons.person_outline),
-              label: 'Me',
+              selectedIcon: const Icon(Icons.person),
+              icon: const Icon(Icons.person_outline),
+              label: S.of(context).me,
             ),
           ],
         ),

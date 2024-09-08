@@ -1,5 +1,6 @@
 import 'package:all_in_order/api/cached_collection.dart';
 import 'package:all_in_order/db/models/subject_event.dart';
+import 'package:all_in_order/generated/l10n.dart';
 import 'package:all_in_order/modules/event/modals/create.dart';
 import 'package:all_in_order/modules/subject/calendar/utils.dart';
 import 'package:all_in_order/widgets/cache_handler.dart';
@@ -32,7 +33,7 @@ class _SubjectCalendarGeneralViewState
       collection: Provider.of<CachedCollection<SubjectEvent>>(context),
       errorAction: (_) => _refreshEvents(),
       errorDetails: (error) => error.toString(),
-      emptyActionLabel: "Create Event",
+      emptyActionLabel: S.of(context).createEvent,
       emptyAction: _showCreateEventModal,
       builder: (context, events, _) {
         if (_selectedEvents.isEmpty) {
@@ -67,9 +68,7 @@ class _SubjectCalendarGeneralViewState
             ),
             const Divider(),
             if (_selectedEvents.isEmpty)
-              const ListTile(
-                title: Text("No events"),
-              )
+              ListTile(title: Text(S.of(context).noEvents))
             else
               ..._selectedEvents.map(_eventTile),
             const SizedBox(height: kToolbarHeight + 1)

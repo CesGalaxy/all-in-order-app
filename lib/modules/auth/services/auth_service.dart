@@ -28,7 +28,6 @@ class AuthService extends ChangeNotifier {
         notifyListeners();
       },
       onError: (Object error) {
-        print('Error: $error');
         _error = error;
         notifyListeners();
       },
@@ -56,7 +55,8 @@ class AuthService extends ChangeNotifier {
 
   Future fetchProfile() async {
     if (session != null) {
-      final Profile? fetchedProfile = await Profile.fetchByUserId(session!.user.id);
+      final Profile? fetchedProfile =
+          await Profile.fetchByUserId(session!.user.id);
       _profile = fetchedProfile;
       notifyListeners();
     }

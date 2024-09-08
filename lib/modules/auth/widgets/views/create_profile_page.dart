@@ -1,3 +1,4 @@
+import 'package:all_in_order/generated/l10n.dart';
 import 'package:all_in_order/supabase.dart';
 import 'package:flutter/material.dart';
 
@@ -11,26 +12,26 @@ class CreateProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Create Profile'),
+        title: Text(S.of(context).createProfile),
       ),
       body: ListView(
         padding: const EdgeInsets.all(32.0),
         children: [
           TextField(
             controller: nameController,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              icon: Icon(Icons.person),
-              labelText: 'Name',
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              icon: const Icon(Icons.person),
+              labelText: S.of(context).name,
             ),
           ),
           const SizedBox(height: 16),
           TextField(
             controller: usernameController,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              icon: Icon(Icons.alternate_email),
-              labelText: 'Username',
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              icon: const Icon(Icons.alternate_email),
+              labelText: S.of(context).username,
             ),
           ),
           const SizedBox(height: 16),
@@ -39,7 +40,7 @@ class CreateProfilePage extends StatelessWidget {
             children: [
               ElevatedButton(
                 onPressed: _createProfile,
-                child: const Text("Create Profile"),
+                child: Text(S.of(context).createProfile),
               ),
             ],
           )

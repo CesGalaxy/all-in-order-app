@@ -1,3 +1,4 @@
+import 'package:all_in_order/generated/l10n.dart';
 import 'package:all_in_order/modules/auth/services/auth_service.dart';
 import 'package:all_in_order/modules/auth/widgets/controllers/middleware.dart';
 import 'package:all_in_order/modules/home/widgets/providers.dart';
@@ -18,15 +19,12 @@ class AllInOrderApp extends StatelessWidget {
         darkTheme: darkTheme,
         debugShowCheckedModeBanner: false,
         localizationsDelegates: const [
+          S.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        supportedLocales: const [
-          Locale('en'), // English
-          Locale('es'), // Spanish
-          Locale('ca'), // Valencian
-        ],
+        supportedLocales: S.delegate.supportedLocales,
         home: AuthMiddleware(child: HomeProviders()),
       ),
     );

@@ -1,3 +1,4 @@
+import 'package:all_in_order/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
 class ErrorChip extends StatelessWidget {
@@ -17,7 +18,7 @@ class ErrorChip extends StatelessWidget {
     return ActionChip(
       avatar: const Icon(Icons.error, color: Colors.white),
       label: Text(
-        message ?? "An error occurred",
+        message ?? S.of(context).anErrorOccurred,
         style: const TextStyle(color: Colors.white),
       ),
       backgroundColor: Theme.of(context).colorScheme.error,

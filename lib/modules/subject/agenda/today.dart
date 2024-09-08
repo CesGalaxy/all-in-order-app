@@ -1,5 +1,6 @@
 import 'package:all_in_order/api/cached_collection.dart';
 import 'package:all_in_order/db/models/subject_event.dart';
+import 'package:all_in_order/generated/l10n.dart';
 import 'package:all_in_order/widgets/cache_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,14 +14,14 @@ class SubjectAgendaToday extends StatelessWidget {
       collection: Provider.of<CachedCollection<SubjectEvent>>(context),
       errorAction: (_) {},
       errorDetails: (error) => error.toString(),
-      emptyActionLabel: "Create Event",
+      emptyActionLabel: S.of(context).createEvent,
       emptyAction: () {},
       builder: (context, events, _) {
         final todayEvents =
             events.where((event) => event.isInDay(DateTime.now())).toList();
 
         if (todayEvents.isEmpty) {
-          return const Center(child: Text("No events today"));
+          return Center(child: Text(S.of(context).noEventsToday));
         }
 
         return ListView.builder(
@@ -30,7 +31,7 @@ class SubjectAgendaToday extends StatelessWidget {
 
             return ListTile(
               title: Text(event.title),
-              subtitle: Text(event.details ?? "No description"),
+              subtitle: Text(event.details ?? S.of(context).noDescription),
               onTap: () {},
               trailing: IconButton(
                 icon: const Icon(Icons.more_horiz),
