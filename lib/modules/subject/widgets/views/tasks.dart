@@ -43,10 +43,14 @@ class _SubjectTasksPageState extends State<SubjectTasksPage> {
                 title: Text(task.title),
                 subtitle: Text(task.details ?? "No description"),
                 onTap: () async {
-                  await showTaskViewModal(context, task);
+                  final edited = await showTaskViewModal(context, task);
 
-                  if (context.mounted) {
-                    // TODO
+                  print(edited);
+
+                  if (edited == true && context.mounted) {
+                    Provider.of<CachedCollection<SubjectEvent>>(context,
+                            listen: false)
+                        .refresh(force: true);
                   }
                 },
                 trailing: IconButton(
