@@ -1,8 +1,7 @@
+import 'package:all_in_order/db/models/topic.dart';
+import 'package:all_in_order/modules/topic/widgets/home.dart';
 import 'package:all_in_order/modules/topic/widgets/resources.dart';
 import 'package:flutter/material.dart';
-
-import '../../../db/models/topic.dart';
-import './home.dart';
 
 class TopicNavigation extends StatefulWidget {
   const TopicNavigation({super.key, required this.topic});

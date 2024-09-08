@@ -1,4 +1,4 @@
-import 'dart:ui';
+import 'package:flutter/material.dart';
 
 class Subject {
   int id;
@@ -23,7 +23,7 @@ class Subject {
       courseId: json['course_id'],
       name: json['name'],
       description: json['description'],
-      color: Color(json['color']),
+      color: Color(json['color'] ?? Colors.blue),
       createdAt: DateTime.parse(json['created_at']),
     );
   }

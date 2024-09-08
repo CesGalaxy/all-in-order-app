@@ -70,13 +70,21 @@ class _SubjectProvidersState extends State<SubjectProviders> {
     _subjectEvents.refresh();
     _subjectTopics.refresh();
 
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider.value(value: _subjectNotes),
-        ChangeNotifierProvider.value(value: _subjectEvents),
-        ChangeNotifierProvider.value(value: _subjectTopics),
-      ],
-      child: SubjectNavigation(subject: widget.subject),
+    print(widget.subject.color);
+
+    return Theme(
+      data: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: widget.subject.color),
+        useMaterial3: true,
+      ),
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider.value(value: _subjectNotes),
+          ChangeNotifierProvider.value(value: _subjectEvents),
+          ChangeNotifierProvider.value(value: _subjectTopics),
+        ],
+        child: SubjectNavigation(subject: widget.subject),
+      ),
     );
   }
 }
