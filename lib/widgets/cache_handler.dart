@@ -37,6 +37,8 @@ class CacheHandler<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    collection.refresh();
+
     switch (collection.status) {
       case CachedDataStatus.done:
         return collection.items.isEmpty

@@ -2,8 +2,8 @@ import 'package:all_in_order/api/cached_collection.dart';
 import 'package:all_in_order/db/models/subject.dart';
 import 'package:all_in_order/db/models/topic.dart';
 import 'package:all_in_order/generated/l10n.dart';
-import 'package:all_in_order/modules/topic/widgets/create_page.dart';
-import 'package:all_in_order/modules/topic/widgets/navigation.dart';
+import 'package:all_in_order/modules/topic/widgets/providers.dart';
+import 'package:all_in_order/modules/topic/widgets/views/create_page.dart';
 import 'package:all_in_order/widgets/cache_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -32,7 +32,10 @@ class SubjectTopicsPage extends StatelessWidget {
             onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => TopicNavigation(topic: topic)),
+                  builder: (context) => TopicProviders(
+                        topic: topic,
+                        subjectColor: subject.color,
+                      )),
             ),
             // leading: const Icon(Icons.topic),
             trailing: IconButton(

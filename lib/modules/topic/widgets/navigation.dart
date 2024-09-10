@@ -1,12 +1,11 @@
 import 'package:all_in_order/db/models/topic.dart';
-import 'package:all_in_order/modules/topic/widgets/home.dart';
-import 'package:all_in_order/modules/topic/widgets/resources.dart';
+import 'package:all_in_order/modules/topic/widgets/views/home.dart';
+import 'package:all_in_order/modules/topic/widgets/views/resources.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class TopicNavigation extends StatefulWidget {
-  const TopicNavigation({super.key, required this.topic});
-
-  final Topic topic;
+  const TopicNavigation({super.key});
 
   @override
   State<TopicNavigation> createState() => _TopicNavigationState();
@@ -47,12 +46,14 @@ class _TopicNavigationState extends State<TopicNavigation>
     width = MediaQuery.sizeOf(context).width;
     height = MediaQuery.sizeOf(context).height;
 
+    final topic = Provider.of<Topic>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: AnimatedOpacity(
           opacity: _activeIndex == 0 ? 0 : 1,
           duration: const Duration(milliseconds: 300),
-          child: Text(widget.topic.title),
+          child: Text(topic.title),
         ),
         actions: <Widget>[
           IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
@@ -67,8 +68,8 @@ class _TopicNavigationState extends State<TopicNavigation>
           });
         },
         children: [
-          TopicHome(topic: widget.topic),
-          TopicResources(topic: widget.topic),
+          TopicHome(topic: topic),
+          TopicResources(topic: topic),
           // TopicTests(topic: widget.topic),
           const Text("data"),
         ],
@@ -97,6 +98,23 @@ class _TopicNavigationState extends State<TopicNavigation>
           ),
         ],
       ),
+      floatingActionButton: <Widget>[
+        FloatingActionButton(
+          heroTag: 'home',
+          onPressed: () {},
+          child: const Icon(Icons.chat),
+        ),
+        FloatingActionButton(
+          heroTag: 'resources',
+          onPressed: () {},
+          child: const Icon(Icons.add),
+        ),
+        FloatingActionButton(
+          heroTag: 'tests',
+          onPressed: () {},
+          child: const Icon(Icons.bar_chart),
+        ),
+      ][_activeIndex],
     );
   }
 }

@@ -8,9 +8,9 @@ import 'package:all_in_order/modules/event/modals/create_task.dart';
 import 'package:all_in_order/modules/note/modals/create_modal.dart';
 import 'package:all_in_order/modules/subject/calendar/navigation.dart';
 import 'package:all_in_order/modules/subject/widgets/views/home.dart';
-import 'package:all_in_order/modules/subject/widgets/views/resources.dart';
 import 'package:all_in_order/modules/subject/widgets/views/settings.dart';
 import 'package:all_in_order/modules/subject/widgets/views/tasks.dart';
+import 'package:all_in_order/modules/subject/widgets/views/topics.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -112,7 +112,7 @@ class _SubjectNavigationState extends State<SubjectNavigation>
         children: <Widget>[
           SubjectHome(
               subject: widget.subject, setTitleVisibility: _setTitleVisibility),
-          SubjectResourcesPage(subject: widget.subject),
+          SubjectTopicsPage(subject: widget.subject),
           SubjectTasksPage(subject: widget.subject),
           //ProjectCalendarPage(subject: widget.subject),
           SubjectCalendarNavigation(subjectId: widget.subject.id),
@@ -144,9 +144,9 @@ class _SubjectNavigationState extends State<SubjectNavigation>
             label: S.of(context).home,
           ),
           NavigationDestination(
-            selectedIcon: const Icon(Icons.view_agenda),
-            icon: const Icon(Icons.view_agenda_outlined),
-            label: S.of(context).resources,
+            selectedIcon: const Icon(Icons.book),
+            icon: const Icon(Icons.book_outlined),
+            label: S.of(context).topics,
           ),
           NavigationDestination(
             selectedIcon: const Icon(Icons.task_alt),
