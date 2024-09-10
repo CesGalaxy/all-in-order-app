@@ -18,7 +18,7 @@ class _SubjectSettingsPageState extends State<SubjectSettingsPage> {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
-            title: Text('Settings'),
+            title: const Text('Settings'),
             bottom: const TabBar(
               tabs: [
                 Tab(text: 'General', icon: Icon(Icons.settings)),
