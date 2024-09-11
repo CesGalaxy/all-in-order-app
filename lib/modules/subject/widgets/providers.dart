@@ -71,7 +71,10 @@ class _SubjectProvidersState extends State<SubjectProviders> {
 
     return Theme(
       data: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: widget.subject.color),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: widget.subject.color,
+          brightness: MediaQuery.platformBrightnessOf(context),
+        ),
         useMaterial3: true,
       ),
       child: MultiProvider(

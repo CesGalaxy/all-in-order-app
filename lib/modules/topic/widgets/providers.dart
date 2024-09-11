@@ -35,7 +35,11 @@ class TopicProviders extends StatelessWidget {
 
     return Theme(
       data: ThemeData.from(
-          colorScheme: ColorScheme.fromSeed(seedColor: subject.color)),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: subject.color,
+          brightness: MediaQuery.platformBrightnessOf(context),
+        ),
+      ),
       child: MultiProvider(
         providers: [
           Provider.value(value: topic),
