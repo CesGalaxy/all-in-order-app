@@ -12,11 +12,5 @@ Future<List<FileObject>> getAllTopicsDocuments() {
 }
 
 Future<List<FileObject>> getTopicDocuments(int topicId) async {
-  print("getTopicDocuments started");
-  return supabase.storage
-      .from("topic_documents")
-      .list(path: "$topicId/")
-      .whenComplete(() {
-    print("getTopicDocuments completed");
-  });
+  return supabase.storage.from("topic_documents").list(path: "$topicId/");
 }

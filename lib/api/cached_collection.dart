@@ -6,11 +6,11 @@ class CachedCollection<T> extends DynamicCollection<T> {
 
   Object? _error;
 
-  final Future<List<T>> Function() _fetch;
+  final Future<List<T>?> Function() _fetch;
 
   // TODO: Fetch on construction?
   CachedCollection({
-    required Future<List<T>> Function() fetch,
+    required Future<List<T>?> Function() fetch,
     required this.cacheDuration,
   }) : _fetch = fetch;
 
@@ -28,12 +28,16 @@ class CachedCollection<T> extends DynamicCollection<T> {
   /// The error that occurred while fetching the data
   Object? get error => _error;
 
+  bool _lastFetchEmpty = false;
+
   /// The status of the cached data
   CachedDataStatus get status {
     if (error != null) {
       return CachedDataStatus.error;
     } else if (_lastFetch == null) {
       return CachedDataStatus.initializing;
+    } else if (_lastFetchEmpty) {
+      return CachedDataStatus.none;
     } else {
       return CachedDataStatus.done;
     }
@@ -54,6 +58,12 @@ class CachedCollection<T> extends DynamicCollection<T> {
         final newItems = await _fetch();
 
         if (update) {
+          // Check if the fetch returned any data
+          if (newItems == null) {
+            _lastFetchEmpty = true;
+            return null;
+          }
+
           // Update the items (and notify listeners)
           setItems(newItems);
 
@@ -82,6 +92,9 @@ enum CachedDataStatus {
 
   /// The data is being fetched for the first time
   initializing,
+
+  /// No data was returned from the fetch
+  none,
 
   /// An error occurred while fetching the data
   error,

@@ -1,6 +1,8 @@
 import 'package:all_in_order/api/cached_collection.dart';
 import 'package:all_in_order/db/models/topic.dart';
 import 'package:all_in_order/modules/docs/widgets/viewer.dart';
+import 'package:all_in_order/modules/topic/widgets/views/file_details.dart';
+import 'package:all_in_order/supabase.dart';
 import 'package:all_in_order/widgets/cache_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -45,12 +47,18 @@ class _TopicResourcesState extends State<TopicResources> {
                     title: Text(doc.name),
                     onTap: () => Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => DocViewer(doc: doc),
+                        builder: (context) => DocViewer(
+                          name: doc.name,
+                          downloadDoc: () => supabase.storage
+                              .from("topic_documents")
+                              .download("${widget.topic.id}/${doc.name}"),
+                        ),
                       ),
                     ),
                     trailing: IconButton(
-                        icon: const Icon(Icons.more_horiz),
-                        onPressed: () async {}),
+                      icon: const Icon(Icons.more_horiz),
+                      onPressed: () => _showDocumentDetails(doc),
+                    ),
                   );
                 },
               ),
@@ -59,6 +67,17 @@ class _TopicResourcesState extends State<TopicResources> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  void _showDocumentDetails(FileObject doc) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => FileDetails(
+        file: doc,
+        onEdit: () {},
+        onDelete: () {},
       ),
     );
   }

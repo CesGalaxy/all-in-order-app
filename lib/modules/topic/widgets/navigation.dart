@@ -1,6 +1,7 @@
 import 'package:all_in_order/db/models/topic.dart';
 import 'package:all_in_order/modules/topic/widgets/views/home.dart';
 import 'package:all_in_order/modules/topic/widgets/views/resources.dart';
+import 'package:all_in_order/modules/topic/widgets/views/tests.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -56,8 +57,16 @@ class _TopicNavigationState extends State<TopicNavigation>
           child: Text(topic.title),
         ),
         actions: <Widget>[
-          IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
-          IconButton(icon: const Icon(Icons.chat), onPressed: () {}),
+          AnimatedOpacity(
+            opacity: _activeIndex == 0 ? 0 : 1,
+            duration: const Duration(milliseconds: 300),
+            child: IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
+          ),
+          AnimatedOpacity(
+            opacity: _activeIndex == 0 ? 0 : 1,
+            duration: const Duration(milliseconds: 300),
+            child: IconButton(icon: const Icon(Icons.chat), onPressed: () {}),
+          ),
         ],
       ),
       body: PageView(
@@ -70,8 +79,7 @@ class _TopicNavigationState extends State<TopicNavigation>
         children: [
           TopicHome(topic: topic),
           TopicResources(topic: topic),
-          // TopicTests(topic: widget.topic),
-          const Text("data"),
+          const TopicTestsPage(),
         ],
       ),
       bottomNavigationBar: NavigationBar(

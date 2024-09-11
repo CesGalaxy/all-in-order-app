@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 class HomeProviders extends StatelessWidget {
   final CachedCollection<CourseWithSubjects> _courses =
       CachedCollection<CourseWithSubjects>(
-    fetch: () async => (await CourseWithSubjects.fetchAll())!,
+    fetch: CourseWithSubjects.fetchAll,
     cacheDuration: const Duration(minutes: 5),
   );
 

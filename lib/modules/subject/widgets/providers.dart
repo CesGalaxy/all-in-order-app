@@ -19,36 +19,35 @@ class SubjectProviders extends StatefulWidget {
 class _SubjectProvidersState extends State<SubjectProviders> {
   late CachedCollection<SubjectNote> _subjectNotes =
       CachedCollection<SubjectNote>(
-    fetch: () async => (await SubjectNote.fetchBySubject(widget.subject.id))!,
+    fetch: () => SubjectNote.fetchBySubject(widget.subject.id),
     cacheDuration: const Duration(minutes: 5),
   );
 
   late CachedCollection<SubjectEvent> _subjectEvents =
       CachedCollection<SubjectEvent>(
-    fetch: () async => (await SubjectEvent.fetchBySubject(widget.subject.id))!,
+    fetch: () => SubjectEvent.fetchBySubject(widget.subject.id),
     cacheDuration: const Duration(minutes: 5),
   );
 
   late CachedCollection<Topic> _subjectTopics = CachedCollection<Topic>(
-    fetch: () async => (await Topic.fetchBySubject(widget.subject.id))!,
+    fetch: () => Topic.fetchBySubject(widget.subject.id),
     cacheDuration: const Duration(minutes: 5),
   );
 
   @override
   void initState() {
     _subjectNotes = CachedCollection<SubjectNote>(
-      fetch: () async => (await SubjectNote.fetchBySubject(widget.subject.id))!,
+      fetch: () => SubjectNote.fetchBySubject(widget.subject.id),
       cacheDuration: const Duration(minutes: 5),
     );
 
     _subjectEvents = CachedCollection<SubjectEvent>(
-      fetch: () async =>
-          (await SubjectEvent.fetchBySubject(widget.subject.id))!,
+      fetch: () => SubjectEvent.fetchBySubject(widget.subject.id),
       cacheDuration: const Duration(minutes: 5),
     );
 
     _subjectTopics = CachedCollection<Topic>(
-      fetch: () async => (await Topic.fetchBySubject(widget.subject.id))!,
+      fetch: () => Topic.fetchBySubject(widget.subject.id),
       cacheDuration: const Duration(minutes: 5),
     );
 

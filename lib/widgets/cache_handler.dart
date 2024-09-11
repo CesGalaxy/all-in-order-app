@@ -48,6 +48,7 @@ class CacheHandler<T> extends StatelessWidget {
                 action: emptyAction,
               )
             : builder(context, collection.items, child);
+      case CachedDataStatus.none:
       case CachedDataStatus.error:
         return Center(
           child: ErrorChip(

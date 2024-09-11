@@ -34,7 +34,7 @@ class SubjectTopicsPage extends StatelessWidget {
               MaterialPageRoute(
                   builder: (context) => TopicProviders(
                         topic: topic,
-                        subjectColor: subject.color,
+                        subject: subject,
                       )),
             ),
             // leading: const Icon(Icons.topic),
