@@ -75,7 +75,8 @@ class CachedCollection<T> extends DynamicCollection<T> {
 
           return newItems;
         }
-      } catch (e) {
+      } catch (e, s) {
+        print(s);
         // In case the fetch fails
         _error = e;
       }

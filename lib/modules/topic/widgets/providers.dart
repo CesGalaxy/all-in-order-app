@@ -17,8 +17,8 @@ class TopicProviders extends StatelessWidget {
           fetch: () => getTopicDocuments(topic.id),
           cacheDuration: const Duration(minutes: 5),
         ),
-        _tests = CachedCollection<TopicTest>(
-          fetch: () => TopicTest.fetchByTopic(topic.id),
+        _tests = CachedCollection<TopicTestWithQuestions>(
+          fetch: () => TopicTestWithQuestions.fetchByTopic(topic.id),
           cacheDuration: const Duration(minutes: 5),
         );
 
@@ -26,7 +26,7 @@ class TopicProviders extends StatelessWidget {
   final Subject subject;
 
   final CachedCollection<FileObject> _docs;
-  final CachedCollection<TopicTest> _tests;
+  final CachedCollection<TopicTestWithQuestions> _tests;
 
   @override
   Widget build(BuildContext context) {

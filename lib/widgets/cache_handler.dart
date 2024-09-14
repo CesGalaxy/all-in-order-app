@@ -53,7 +53,11 @@ class CacheHandler<T> extends StatelessWidget {
         return Center(
           child: ErrorChip(
             message: errorMessage?.call(collection.error!),
-            action: errorAction(collection.error!),
+            action: () {
+              print(collection.error!.toString());
+
+              errorAction(collection.error!);
+            },
             details: errorDetails?.call(collection.error!),
           ),
         );

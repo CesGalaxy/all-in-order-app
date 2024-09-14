@@ -52,7 +52,7 @@ class CourseWithSubjects extends Course {
       name: json['name'],
       createdAt: DateTime.parse(json['created_at']),
       subjects: json['subjects']
-          ?.map<Subject>((e) => Subject.fromJson(e as Map<String, dynamic>))
+          .map<Subject>((e) => Subject.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
