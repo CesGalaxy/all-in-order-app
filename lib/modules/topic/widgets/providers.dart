@@ -1,9 +1,9 @@
-import 'package:all_in_order/api/cached_collection.dart';
 import 'package:all_in_order/db/models/subject.dart';
 import 'package:all_in_order/db/models/topic.dart';
 import 'package:all_in_order/db/models/topic_test.dart';
 import 'package:all_in_order/db/storage/topic_document.dart';
 import 'package:all_in_order/modules/topic/widgets/navigation.dart';
+import 'package:all_in_order/utils/cached_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

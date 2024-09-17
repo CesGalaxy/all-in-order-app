@@ -106,7 +106,7 @@ class _TopicNavigationState extends State<TopicNavigation>
           ),
         ],
       ),
-      floatingActionButton: <Widget>[
+      floatingActionButton: <Widget?>[
         FloatingActionButton(
           heroTag: 'home',
           onPressed: () {},
@@ -117,11 +117,12 @@ class _TopicNavigationState extends State<TopicNavigation>
           onPressed: () {},
           child: const Icon(Icons.add),
         ),
-        FloatingActionButton(
-          heroTag: 'tests',
-          onPressed: () {},
-          child: const Icon(Icons.bar_chart),
-        ),
+        // FloatingActionButton(
+        //   heroTag: 'tests',
+        //   onPressed: () {},
+        //   child: const Icon(Icons.bar_chart),
+        // ),
+        null,
       ][_activeIndex],
     );
   }

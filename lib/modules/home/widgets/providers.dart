@@ -1,6 +1,6 @@
-import 'package:all_in_order/api/cached_collection.dart';
 import 'package:all_in_order/db/models/course.dart';
 import 'package:all_in_order/modules/home/widgets/navigation.dart';
+import 'package:all_in_order/utils/cached_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

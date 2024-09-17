@@ -1,18 +1,26 @@
-import 'package:all_in_order/api/dynamic_collection.dart';
+import 'package:all_in_order/utils/dynamic_collection.dart';
 
 class CachedCollection<T> extends DynamicCollection<T> {
+  /// The minimum time between fetches (can be overridden by [force])
   final Duration cacheDuration;
+
+  /// When the data was last fetched
   DateTime? _lastFetch;
 
-  Object? _error;
+  /// The error that occurred while the latest fetch
+  (Object, StackTrace)? _error;
 
-  final Future<List<T>?> Function() _fetch;
+  /// The function that fetches the data
+  final Future<List<T>?> Function() fetch;
+
+  /// The current fetch request (if any)
+  Future<List<T>?>? _currentFetch;
 
   // TODO: Fetch on construction?
   CachedCollection({
-    required Future<List<T>?> Function() fetch,
+    required this.fetch,
     required this.cacheDuration,
-  }) : _fetch = fetch;
+  });
 
   /// Get all the cached items and refresh them (in background) if necessary
   @override
@@ -28,7 +36,8 @@ class CachedCollection<T> extends DynamicCollection<T> {
   /// The error that occurred while fetching the data
   Object? get error => _error;
 
-  bool _lastFetchEmpty = false;
+  /// Whether the last fetch returned no data
+  bool _lastFetchWasNull = false;
 
   /// The status of the cached data
   CachedDataStatus get status {
@@ -36,7 +45,7 @@ class CachedCollection<T> extends DynamicCollection<T> {
       return CachedDataStatus.error;
     } else if (_lastFetch == null) {
       return CachedDataStatus.initializing;
-    } else if (_lastFetchEmpty) {
+    } else if (_lastFetchWasNull) {
       return CachedDataStatus.none;
     } else {
       return CachedDataStatus.done;
@@ -54,31 +63,32 @@ class CachedCollection<T> extends DynamicCollection<T> {
         _lastFetch == null ||
         DateTime.now().difference(_lastFetch!) > cacheDuration) {
       try {
-        // Fetch new data
-        final newItems = await _fetch();
+        // Start fetching the data
+        _currentFetch = fetch();
 
+        // Wait for the request to finish
+        final newItems = await _currentFetch;
+
+        // Update the items/error if requested
         if (update) {
           // Check if the fetch returned any data
           if (newItems == null) {
-            _lastFetchEmpty = true;
+            _lastFetchWasNull = true;
             return null;
           }
 
           // Update the items (and notify listeners)
           setItems(newItems);
-
           // Remove any previous errors
           _error = null;
-
           // Update the last fetch time
           _lastFetch = DateTime.now();
 
           return newItems;
         }
       } catch (e, s) {
-        print(s);
         // In case the fetch fails
-        _error = e;
+        _error = (e, s);
       }
     }
 
@@ -94,7 +104,7 @@ enum CachedDataStatus {
   /// The data is being fetched for the first time
   initializing,
 
-  /// No data was returned from the fetch
+  /// No data (null) was returned from the fetch
   none,
 
   /// An error occurred while fetching the data

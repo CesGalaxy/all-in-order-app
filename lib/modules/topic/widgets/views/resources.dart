@@ -1,8 +1,8 @@
-import 'package:all_in_order/api/cached_collection.dart';
 import 'package:all_in_order/db/models/topic.dart';
 import 'package:all_in_order/modules/docs/widgets/viewer.dart';
 import 'package:all_in_order/modules/topic/widgets/views/file_details.dart';
 import 'package:all_in_order/supabase.dart';
+import 'package:all_in_order/utils/cached_collection.dart';
 import 'package:all_in_order/widgets/cache_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

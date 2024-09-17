@@ -1,10 +1,10 @@
-import 'package:all_in_order/api/cached_collection.dart';
 import 'package:all_in_order/db/models/course.dart';
 import 'package:all_in_order/db/models/subject.dart';
 import 'package:all_in_order/generated/l10n.dart';
 import 'package:all_in_order/modules/course/widgets/modals/create.dart';
 import 'package:all_in_order/modules/subject/widgets/modals/create.dart';
 import 'package:all_in_order/modules/subject/widgets/providers.dart';
+import 'package:all_in_order/utils/cached_collection.dart';
 import 'package:all_in_order/widgets/cache_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

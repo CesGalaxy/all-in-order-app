@@ -1,4 +1,3 @@
-import 'package:all_in_order/api/cached_collection.dart';
 import 'package:all_in_order/db/models/subject.dart';
 import 'package:all_in_order/db/models/subject_event.dart';
 import 'package:all_in_order/db/models/subject_note.dart';
@@ -11,6 +10,7 @@ import 'package:all_in_order/modules/subject/widgets/views/home.dart';
 import 'package:all_in_order/modules/subject/widgets/views/settings.dart';
 import 'package:all_in_order/modules/subject/widgets/views/tasks.dart';
 import 'package:all_in_order/modules/subject/widgets/views/topics.dart';
+import 'package:all_in_order/utils/cached_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
