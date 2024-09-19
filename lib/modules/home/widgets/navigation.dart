@@ -1,5 +1,5 @@
 import 'package:all_in_order/generated/l10n.dart';
-import 'package:all_in_order/modules/home/widgets/views/home_page.dart';
+import 'package:all_in_order/modules/home/widgets/views/home.dart';
 import 'package:all_in_order/modules/user/widgets/me.dart';
 import 'package:flutter/material.dart';
 

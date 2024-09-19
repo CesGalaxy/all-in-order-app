@@ -27,17 +27,21 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(S.of(context).myCourses),
-        actions: <Widget>[
-          IconButton(
+        title: Image.asset("assets/logo/NameCol.png"),
+        bottom: AppBar(
+          centerTitle: true,
+          title: Text(S.of(context).myCourses),
+          leading: IconButton(
             icon: const Icon(Icons.notifications),
             onPressed: () {},
           ),
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {},
-          ),
-        ],
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.search),
+              onPressed: () {},
+            ),
+          ],
+        ),
       ),
       body: CacheHandler(
         collection: Provider.of<CachedCollection<CourseWithSubjects>>(context),
