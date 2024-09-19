@@ -15,35 +15,42 @@ class SubjectTopicsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CacheHandler(
-      collection: Provider.of<CachedCollection<Topic>>(context),
-      errorAction: (_) {},
-      errorDetails: (error) => error.toString(),
-      emptyTitle: S.of(context).noTopicsFound,
-      emptyActionLabel: S.of(context).createTopic,
-      emptyAction: () => _openTopicCreationPage(context),
-      builder: (context, topics, _) => ListView.builder(
-        itemCount: topics.length,
-        itemBuilder: (context, index) {
-          final topic = topics[index];
-          return ListTile(
-            title: Text(topic.title),
-            subtitle: Text(topic.description),
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => TopicProviders(
-                        topic: topic,
-                        subject: subject,
-                      )),
-            ),
-            // leading: const Icon(Icons.topic),
-            trailing: IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.chat),
-            ),
-          );
-        },
+    return Scaffold(
+      body: CacheHandler(
+        collection: Provider.of<CachedCollection<Topic>>(context),
+        errorAction: (_) {},
+        errorDetails: (error) => error.toString(),
+        emptyTitle: S.of(context).noTopicsFound,
+        emptyActionLabel: S.of(context).createTopic,
+        emptyAction: () => _openTopicCreationPage(context),
+        builder: (context, topics, _) => ListView.builder(
+          itemCount: topics.length,
+          itemBuilder: (context, index) {
+            final topic = topics[index];
+            return ListTile(
+              title: Text(topic.title),
+              subtitle: Text(topic.description),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => TopicProviders(
+                          topic: topic,
+                          subject: subject,
+                        )),
+              ),
+              // leading: const Icon(Icons.topic),
+              trailing: IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.chat),
+              ),
+            );
+          },
+        ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () => _openTopicCreationPage(context),
+        icon: const Icon(Icons.add),
+        label: Text(S.of(context).createTopic),
       ),
     );
   }
