@@ -106,6 +106,12 @@ class _SubjectNavigationState extends State<SubjectNavigation>
             SubjectHome(
               subject: widget.subject,
               setTitleVisibility: _setTitleVisibility,
+              goToTopics: () =>
+                  setState(() => _pageViewController.animateToPage(
+                        1,
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.bounceOut,
+                      )),
             ),
             SubjectTopicsPage(subject: widget.subject),
             SubjectTasksPage(subject: widget.subject),
