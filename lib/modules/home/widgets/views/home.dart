@@ -2,6 +2,8 @@ import 'package:all_in_order/db/models/course.dart';
 import 'package:all_in_order/db/models/subject.dart';
 import 'package:all_in_order/generated/l10n.dart';
 import 'package:all_in_order/modules/course/widgets/modals/create.dart';
+import 'package:all_in_order/modules/course/widgets/modals/edit.dart';
+import 'package:all_in_order/modules/course/widgets/views/members_manager.dart';
 import 'package:all_in_order/modules/subject/widgets/modals/create.dart';
 import 'package:all_in_order/modules/subject/widgets/providers.dart';
 import 'package:all_in_order/utils/cached_collection.dart';
@@ -67,9 +69,38 @@ class _HomePageState extends State<HomePage> {
         initiallyExpanded: true,
         title: Text(course.name),
         subtitle: course.description != null ? Text(course.description!) : null,
-        leading: IconButton(
-          icon: const Icon(Icons.add),
-          onPressed: () => _showSubjectCreationModal(course.id),
+        leading: PopupMenuButton(
+          icon: const Icon(Icons.menu),
+          itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+            PopupMenuItem(
+              onTap: () => _showSubjectCreationModal(course.id),
+              child: const ListTile(
+                leading: Icon(Icons.add),
+                title: Text("Create Subject"),
+              ),
+            ),
+            PopupMenuItem(
+              onTap: () => _showCourseEditionModal(course),
+              child: const ListTile(
+                leading: Icon(Icons.edit),
+                title: Text("Edit"),
+              ),
+            ),
+            PopupMenuItem(
+              onTap: () => _showCourseMembersManager(course.id),
+              child: const ListTile(
+                leading: Icon(Icons.people),
+                title: Text("Members"),
+              ),
+            ),
+            PopupMenuItem(
+              onTap: () {},
+              child: const ListTile(
+                leading: Icon(Icons.delete),
+                title: Text("Delete"),
+              ),
+            ),
+          ],
         ),
         children: [_courseSubjects(course)],
       );
@@ -149,6 +180,19 @@ class _HomePageState extends State<HomePage> {
           .refresh(force: true);
     }
   }
+
+  void _showCourseEditionModal(Course course) async {
+    if (await showCourseEditModal(context, course) && mounted) {
+      Provider.of<CachedCollection<CourseWithSubjects>>(context, listen: false)
+          .refresh(force: true);
+    }
+  }
+
+  void _showCourseMembersManager(int courseId) => Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CourseMembersManager(courseId: courseId),
+      ));
 
   void _showSubjectCreationModal(int courseId) async {
     if (await showSubjectCreationModal(context, courseId) && mounted) {

@@ -1,6 +1,12 @@
 import 'package:all_in_order/db/models/course.dart';
 import 'package:flutter/material.dart';
 
+Future<bool> showCourseEditModal(BuildContext context, Course course) =>
+    showModalBottomSheet<bool>(
+      context: context,
+      builder: (context) => EditCourseModal(course: course),
+    ).then((created) => created ?? false);
+
 class EditCourseModal extends StatefulWidget {
   const EditCourseModal({super.key, required this.course});
 
@@ -34,8 +40,8 @@ class _EditCourseModalState extends State<EditCourseModal> {
         padding: const EdgeInsets.all(16),
         children: [
           AppBar(
-            automaticallyImplyLeading: false,
             title: const Text("Edit course"),
+            backgroundColor: Colors.transparent,
             actions: [
               IconButton(
                 icon: const Icon(Icons.save),
@@ -52,7 +58,7 @@ class _EditCourseModalState extends State<EditCourseModal> {
             decoration: const InputDecoration(labelText: "Description"),
           ),
           const SizedBox(height: 16),
-          ElevatedButton(
+          FilledButton(
             onPressed: _submitCourseUpdate,
             child: const Text("Update course"),
           ),

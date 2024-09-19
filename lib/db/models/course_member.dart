@@ -21,10 +21,10 @@ class CourseMember {
 
   factory CourseMember.fromJson(Map<String, dynamic> json) {
     return CourseMember(
-      profileId: json['profileId'],
-      courseId: json['courseId'],
-      isAdmin: json['isAdmin'],
-      joinedAt: DateTime.parse(json['joinedAt']),
+      profileId: json['profile_id'],
+      courseId: json['course_id'],
+      isAdmin: json['is_admin'],
+      joinedAt: DateTime.parse(json['joined_at']),
     );
   }
 }
