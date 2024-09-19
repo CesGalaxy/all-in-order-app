@@ -47,8 +47,8 @@ class SubjectEvent {
         details: json['details'],
         type: SubjectEventTypeExtension.fromName(json['type']),
         startsAt: DateTime.parse(json['starts_at']),
-        endsAt: tryToParse(json['ends_at'] as String, DateTime.parse),
-        updatedAt: tryToParse(json['updated_at'] as String, DateTime.parse),
+        endsAt: tryToParse(json['ends_at'] as String?, DateTime.parse),
+        updatedAt: tryToParse(json['updated_at'] as String?, DateTime.parse),
         createdAt: DateTime.parse(json['created_at']),
       );
 

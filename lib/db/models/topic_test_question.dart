@@ -24,7 +24,7 @@ class TopicTestQuestion<T extends TestQuestionData> {
         testId: json['test_id'],
         position: json['position'],
         data: TestQuestionData.fromJson(json['data']) as T,
-        updatedAt: tryToParse(json['updated_at'] as String, DateTime.parse),
+        updatedAt: tryToParse(json['updated_at'] as String?, DateTime.parse),
         createdAt: DateTime.parse(json['created_at']),
       );
 }
