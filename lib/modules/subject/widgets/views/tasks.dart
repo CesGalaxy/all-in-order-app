@@ -2,7 +2,7 @@ import 'package:all_in_order/db/models/subject.dart';
 import 'package:all_in_order/db/models/subject_event.dart';
 import 'package:all_in_order/generated/l10n.dart';
 import 'package:all_in_order/modules/event/modals/create_task.dart';
-import 'package:all_in_order/modules/task/view_modal.dart';
+import 'package:all_in_order/modules/task/widgets/modals/view_modal.dart';
 import 'package:all_in_order/utils/cached_collection.dart';
 import 'package:all_in_order/widgets/cache_handler.dart';
 import 'package:flutter/material.dart';
@@ -45,8 +45,6 @@ class _SubjectTasksPageState extends State<SubjectTasksPage> {
                 subtitle: Text(task.details ?? S.of(context).noDescription),
                 onTap: () async {
                   final edited = await showTaskViewModal(context, task);
-
-                  print(edited);
 
                   if (edited == true && context.mounted) {
                     Provider.of<CachedCollection<SubjectEvent>>(context,

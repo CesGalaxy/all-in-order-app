@@ -5,18 +5,23 @@ import 'package:all_in_order/supabase.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-Future<bool?> showTaskViewModal(BuildContext context, SubjectEvent event) {
+Future<bool?> showTaskViewModal(
+  BuildContext context,
+  SubjectEvent event, [
+  bool initialEditMode = false,
+]) {
   return showModalBottomSheet<bool>(
     context: context,
     isScrollControlled: true,
-    builder: (context) => TaskViewModal(task: event),
+    builder: (context) => TaskViewModal(task: event, editMode: initialEditMode),
   );
 }
 
 class TaskViewModal extends StatefulWidget {
-  const TaskViewModal({super.key, required this.task});
+  const TaskViewModal({super.key, required this.task, this.editMode = false});
 
   final SubjectEvent task;
+  final bool editMode;
 
   @override
   State<TaskViewModal> createState() => _TaskViewModalState();
@@ -30,7 +35,7 @@ class _TaskViewModalState extends State<TaskViewModal> {
 
   late DateTime? _dueDate = widget.task.endsAt;
 
-  bool _editMode = false;
+  late bool _editMode = widget.editMode;
 
   // late final Future<Profile?> _createdByRequest =
   //     Profile.fetchById(widget.task.a!);
