@@ -1,4 +1,5 @@
-import '../../supabase.dart';
+import 'package:all_in_order/supabase.dart';
+import 'package:all_in_order/utils/db.dart';
 
 class Topic {
   int id;
@@ -15,33 +16,25 @@ class Topic {
     required this.createdAt,
   });
 
-  static Future<Topic?> fetchById(int id) async {
-    final data = await supabase
-        .from('topics')
-        .select()
-        .eq('id', id)
-        .limit(1)
-        .maybeSingle();
+  static Future<Topic?> fetchById(int id) => supabase
+      .from('topics')
+      .select()
+      .eq('id', id)
+      .limit(1)
+      .maybeSingle()
+      .then((raw) => tryToParse(raw, Topic.fromJson));
 
-    return data != null ? Topic.fromJson(data) : null;
-  }
+  static Future<List<Topic>?> fetchBySubject(int subjectId) => supabase
+      .from('topics')
+      .select()
+      .eq('subject_id', subjectId)
+      .then((raw) => raw.map(Topic.fromJson).toList());
 
-  static Future<List<Topic>?> fetchBySubject(int subjectId) async {
-    final data = await supabase
-        .from('topics')
-        .select()
-        .eq('subject_id', subjectId);
-
-    return data.map(Topic.fromJson).toList();
-  }
-
-  factory Topic.fromJson(Map<String, dynamic> json) {
-    return Topic(
-      id: json['id'],
-      subjectId: json['subject_id'],
-      title: json['title'],
-      description: json['description'],
-      createdAt: DateTime.parse(json['created_at']),
-    );
-  }
+  factory Topic.fromJson(Map<String, dynamic> json) => Topic(
+        id: json['id'],
+        subjectId: json['subject_id'],
+        title: json['title'],
+        description: json['description'],
+        createdAt: DateTime.parse(json['created_at']),
+      );
 }

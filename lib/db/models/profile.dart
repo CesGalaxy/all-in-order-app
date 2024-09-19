@@ -1,4 +1,5 @@
 import 'package:all_in_order/supabase.dart';
+import 'package:all_in_order/utils/db.dart';
 
 class Profile {
   int id;
@@ -8,7 +9,6 @@ class Profile {
   String? avatarUrl;
   String? bio;
 
-  // Constructor
   Profile({
     required this.id,
     required this.userId,
@@ -18,37 +18,28 @@ class Profile {
     this.bio,
   });
 
-  static Future<Profile?> fetchByUserId(String userId) async {
-    final data = await supabase
-        .from('profiles')
-        .select()
-        .eq('user_id', userId)
-        .limit(1)
-        .maybeSingle();
+  static Future<Profile?> fetchById(int id) => supabase
+      .from('profiles')
+      .select()
+      .eq('id', id)
+      .limit(1)
+      .maybeSingle()
+      .then((raw) => tryToParse(raw, Profile.fromJson));
 
-    return data != null ? Profile.fromJson(data) : null;
-  }
+  static Future<Profile?> fetchByUserId(String userId) => supabase
+      .from('profiles')
+      .select()
+      .eq('user_id', userId)
+      .limit(1)
+      .maybeSingle()
+      .then((raw) => tryToParse(raw, Profile.fromJson));
 
-  static Future<Profile?> fetchById(int id) async {
-    final data = await supabase
-        .from('profiles')
-        .select()
-        .eq('id', id)
-        .limit(1)
-        .maybeSingle();
-
-    return data != null ? Profile.fromJson(data) : null;
-  }
-
-  // From JSON
-  static Profile? fromJson(Map<String, dynamic> json) {
-    return Profile(
-      id: json['id'],
-      userId: json['user_id'],
-      name: json['name'],
-      username: json['username'],
-      avatarUrl: json['avatar_url'],
-      bio: json['bio'],
-    );
-  }
+  static Profile fromJson(Map<String, dynamic> json) => Profile(
+        id: json['id'],
+        userId: json['user_id'],
+        name: json['name'],
+        username: json['username'],
+        avatarUrl: json['avatar_url'],
+        bio: json['bio'],
+      );
 }

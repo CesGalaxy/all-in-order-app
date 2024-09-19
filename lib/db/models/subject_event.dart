@@ -1,4 +1,5 @@
 import 'package:all_in_order/supabase.dart';
+import 'package:all_in_order/utils/db.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -25,41 +26,31 @@ class SubjectEvent {
     required this.createdAt,
   });
 
-  static Future<SubjectEvent?> fetchById(int id) async {
-    final data = await supabase
-        .from('subject_events')
-        .select()
-        .eq('id', id)
-        .limit(1)
-        .maybeSingle();
+  static Future<SubjectEvent?> fetchById(int id) => supabase
+      .from('subject_events')
+      .select()
+      .eq('id', id)
+      .limit(1)
+      .maybeSingle()
+      .then((raw) => tryToParse(raw, SubjectEvent.fromJson));
 
-    return data != null ? SubjectEvent.fromJson(data) : null;
-  }
+  static Future<List<SubjectEvent>?> fetchBySubject(int subjectId) => supabase
+      .from('subject_events')
+      .select()
+      .eq('subject_id', subjectId)
+      .then((raw) => raw.map(SubjectEvent.fromJson).toList());
 
-  static Future<List<SubjectEvent>?> fetchBySubject(int subjectId) async {
-    final data = await supabase
-        .from('subject_events')
-        .select()
-        .eq('subject_id', subjectId);
-
-    return data.map(SubjectEvent.fromJson).toList();
-  }
-
-  factory SubjectEvent.fromJson(Map<String, dynamic> json) {
-    return SubjectEvent(
-      id: json['id'],
-      subjectId: json['subject_id'],
-      title: json['title'],
-      details: json['details'],
-      type: SubjectEventTypeExtension.fromName(json['type']),
-      startsAt: DateTime.parse(json['starts_at']),
-      endsAt: json['ends_at'] != null ? DateTime.parse(json['ends_at']) : null,
-      updatedAt: json['updated_at'] != null
-          ? DateTime.parse(json['updated_at'])
-          : null,
-      createdAt: DateTime.parse(json['created_at']),
-    );
-  }
+  factory SubjectEvent.fromJson(Map<String, dynamic> json) => SubjectEvent(
+        id: json['id'],
+        subjectId: json['subject_id'],
+        title: json['title'],
+        details: json['details'],
+        type: SubjectEventTypeExtension.fromName(json['type']),
+        startsAt: DateTime.parse(json['starts_at']),
+        endsAt: tryToParse(json['ends_at'] as String, DateTime.parse),
+        updatedAt: tryToParse(json['updated_at'] as String, DateTime.parse),
+        createdAt: DateTime.parse(json['created_at']),
+      );
 
   bool isInDay(DateTime day) => (type == SubjectEventType.task)
       ? isSameDay(endsAt, day)

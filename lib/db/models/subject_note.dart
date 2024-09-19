@@ -1,4 +1,4 @@
-import '../../supabase.dart';
+import 'package:all_in_order/supabase.dart';
 
 class SubjectNote {
   int id;
@@ -17,23 +17,17 @@ class SubjectNote {
     required this.tags,
   });
 
-  static Future<List<SubjectNote>?> fetchBySubject(int subjectId) async {
-    final data = await supabase
-        .from('subject_notes')
-        .select()
-        .eq('subject_id', subjectId);
+  static Future<List<SubjectNote>?> fetchBySubject(int subjectId) => supabase
+      .from('subject_notes')
+      .select()
+      .eq('subject_id', subjectId)
+      .then((raw) => raw.map((e) => SubjectNote.fromJson(e)).toList());
 
-    return data.map((e) => SubjectNote.fromJson(e)).toList();
-  }
-
-  factory SubjectNote.fromJson(Map<String, dynamic> data) {
-    return SubjectNote(
-        id: data['id'],
-        subjectId: data['subject_id'],
-        authorId: data['author_id'],
-        title: data['title'],
-        content: data['content'],
-        tags: data['tags']?.cast<String>()
-    );
-  }
+  factory SubjectNote.fromJson(Map<String, dynamic> data) => SubjectNote(
+      id: data['id'],
+      subjectId: data['subject_id'],
+      authorId: data['author_id'],
+      title: data['title'],
+      content: data['content'],
+      tags: data['tags']?.cast<String>());
 }
