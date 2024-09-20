@@ -36,6 +36,9 @@ class CachedCollection<T> extends DynamicCollection<T> {
   /// The error that occurred while fetching the data
   Object? get error => _error;
 
+  /// Whether there is any data is available to be used
+  bool get dataAvailable => status == CachedDataStatus.done;
+
   /// Whether the last fetch returned no data
   bool _lastFetchWasNull = false;
 
